@@ -735,3 +735,297 @@ body {
     color: #333;
     font-size: 0.8rem;
 }
+
+/* ============================================
+   FLIPBOOK
+   ============================================ */
+.flipbook-wrapper {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.flipbook {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    background: rgba(15, 15, 22, 0.9);
+    border: 1px solid rgba(102, 252, 241, 0.1);
+    box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.04),
+        0 30px 60px rgba(0, 0, 0, 0.6),
+        inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    min-height: 380px;
+}
+
+.flip-page {
+    display: none;
+    grid-template-columns: 1fr 1fr;
+    min-height: 380px;
+    animation: flipFadeIn 0.6s ease;
+}
+
+.flip-page.active {
+    display: grid;
+}
+
+@keyframes flipFadeIn {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.flip-img {
+    overflow: hidden;
+    border-radius: 16px 0 0 16px;
+}
+
+.flip-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+    display: block;
+}
+
+.flip-page:hover .flip-img img {
+    transform: scale(1.04);
+}
+
+.flip-text {
+    padding: 3rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.flip-tag {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: var(--accent-color);
+    text-transform: uppercase;
+}
+
+.flip-text h3 {
+    font-size: 1.6rem;
+    font-weight: 800;
+    line-height: 1.3;
+    color: #fff;
+}
+
+.flip-text p {
+    font-size: 0.95rem;
+    color: #8888a0;
+    line-height: 1.8;
+}
+
+/* Controles */
+.flip-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    padding: 1.5rem;
+}
+
+.flip-btn {
+    background: rgba(102, 252, 241, 0.08);
+    border: 1px solid rgba(102, 252, 241, 0.2);
+    color: var(--accent-color);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 1.4rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s ease, transform 0.2s ease;
+    line-height: 1;
+}
+
+.flip-btn:hover {
+    background: rgba(102, 252, 241, 0.18);
+    transform: scale(1.1);
+}
+
+.flip-dots {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.flip-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.flip-dot.active {
+    background: var(--accent-color);
+    transform: scale(1.3);
+}
+
+/* ============================================
+   EVENTS SECTION
+   ============================================ */
+.events-section {
+    padding: 6rem 5%;
+    background: #08080c;
+}
+
+.events-group {
+    margin-bottom: 4rem;
+}
+
+.events-group-title {
+    font-size: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: #555;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.events-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.5rem;
+}
+
+.event-card {
+    background: rgba(18, 18, 26, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.event-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+}
+
+.event-card--upcoming {
+    border-color: rgba(102, 252, 241, 0.2);
+    box-shadow: 0 0 20px rgba(102, 252, 241, 0.05);
+}
+
+.event-img {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+}
+
+.event-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.event-card:hover .event-img img {
+    transform: scale(1.06);
+}
+
+.event-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.3rem 0.8rem;
+    border-radius: 100px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    background: rgba(0, 0, 0, 0.7);
+    color: #666;
+    backdrop-filter: blur(8px);
+}
+
+.event-badge--upcoming {
+    background: rgba(102, 252, 241, 0.15);
+    color: var(--accent-color);
+    border: 1px solid rgba(102, 252, 241, 0.3);
+}
+
+.event-info {
+    padding: 1.5rem;
+    display: flex;
+    gap: 1.2rem;
+    align-items: flex-start;
+}
+
+.event-date {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 50px;
+    padding: 0.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    text-align: center;
+}
+
+.event-day {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1;
+}
+
+.event-month {
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+    color: var(--accent-color);
+    text-transform: uppercase;
+    margin-top: 0.2rem;
+}
+
+.event-details h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 0.4rem;
+}
+
+.event-details p {
+    font-size: 0.85rem;
+    color: #7777a0;
+    line-height: 1.6;
+    margin-bottom: 0.8rem;
+}
+
+.event-cta {
+    color: var(--accent-color);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: letter-spacing 0.3s ease;
+}
+
+.event-cta:hover {
+    letter-spacing: 1px;
+}
+
+@media (max-width: 700px) {
+    .flip-page.active {
+        grid-template-columns: 1fr;
+    }
+
+    .flip-img {
+        border-radius: 16px 16px 0 0;
+        height: 200px;
+    }
+}

@@ -22,6 +22,19 @@ document.addEventListener('DOMContentLoaded', () => {
         loader.style.opacity = '0';
         loader.style.visibility = 'hidden';
 
+        // Fade out del sonido al mismo tiempo que el loader
+        if (engineSound && !engineSound.paused) {
+            const fadeOut = setInterval(() => {
+                if (engineSound.volume > 0.05) {
+                    engineSound.volume = Math.max(0, engineSound.volume - 0.08);
+                } else {
+                    engineSound.pause();
+                    engineSound.currentTime = 0;
+                    clearInterval(fadeOut);
+                }
+            }, 60);
+        }
+
         const heroWrapper = document.getElementById('heroLogoWrapper');
         if (heroWrapper) {
             const firstRect = loaderLogo.getBoundingClientRect();
@@ -233,3 +246,44 @@ function loadInventory() {
         carsGrid.appendChild(card);
     });
 }
+
+// =====================================================
+// FLIPBOOK — auto-avance cada 7 segundos
+// =====================================================
+(function initFlipbook() {
+    const pages = document.querySelectorAll('.flip-page');
+    const dots = document.querySelectorAll('.flip-dot');
+    const btnPrev = document.getElementById('flipPrev');
+    const btnNext = document.getElementById('flipNext');
+    if (!pages.length) return;
+
+    let current = 0;
+    let timer = null;
+
+    function goTo(idx) {
+        pages[current].classList.remove('active');
+        dots[current].classList.remove('active');
+        current = (idx + pages.length) % pages.length;
+        pages[current].classList.add('active');
+        dots[current].classList.add('active');
+    }
+
+    function startTimer() {
+        clearInterval(timer);
+        timer = setInterval(() => goTo(current + 1), 7000);
+    }
+
+    // Botones
+    if (btnNext) btnNext.addEventListener('click', () => { goTo(current + 1); startTimer(); });
+    if (btnPrev) btnPrev.addEventListener('click', () => { goTo(current - 1); startTimer(); });
+
+    // Dots
+    dots.forEach(dot => {
+        dot.addEventListener('click', () => {
+            goTo(parseInt(dot.dataset.idx));
+            startTimer();
+        });
+    });
+
+    startTimer(); // Arrancar el timer automático
+})();

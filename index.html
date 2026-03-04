@@ -18,6 +18,7 @@
         </div>
     </div>
 
+
     <!-- Main Content -->
     <main id="main-content" style="display: none;">
 
@@ -91,31 +92,170 @@
                 <div class="speech-divider"></div>
             </div>
 
-            <!-- Blog posts -->
-            <div class="blog-grid">
-                <article class="blog-card">
-                    <div class="blog-tag">GUÍA</div>
-                    <h3>¿Cómo financiar un superdeportivo sin morir en el intento?</h3>
-                    <p>La verdad que los bancos no te cuentan sobre créditos para vehículos de lujo en México. Tips
-                        reales de nuestros asesores.</p>
-                    <a href="#" class="blog-link">Leer más →</a>
-                </article>
+            <!-- ========================================
+                 FLIPBOOK — se pasa cada 7 segundos
+                 ======================================== -->
+            <div class="flipbook-wrapper">
+                <div class="flipbook" id="flipbook">
 
-                <article class="blog-card blog-card--featured">
-                    <div class="blog-tag">CULTURA</div>
-                    <h3>GTA VI llega — y nosotros ya tenemos los coches reales</h3>
-                    <p>Del píxel al pavimento. Los modelos que Rockstar inmortalizó en el juego y que tú puedes manejar
-                        en la vida real, los tenemos en inventario.</p>
-                    <a href="#" class="blog-link">Leer más →</a>
-                </article>
+                    <!-- PÁGINA 1: ¿Qué es Cash & Flow? -->
+                    <div class="flip-page active">
+                        <div class="flip-img">
+                            <img src="multimedia_cash/flipbook_garage.png" alt="Cash & Flow Garage">
+                        </div>
+                        <div class="flip-text">
+                            <span class="flip-tag">NUESTRA HISTORIA</span>
+                            <h3>¿Qué es Cash &amp; Flow?</h3>
+                            <p>Nacimos en Querétaro con una misión simple: acercar los vehículos de la pantalla al
+                                pavimento. Somos más que una agencia — somos el punto de encuentro entre quienes viven
+                                rápido y los coches que lo hacen posible.</p>
+                            <p>Desde deportivos exóticos hasta berlinetas discretas de alto rendimiento, aquí encuentras
+                                lo que no ves en los concesionarios normales.</p>
+                        </div>
+                    </div>
 
-                <article class="blog-card">
-                    <div class="blog-tag">TÉCNICO</div>
-                    <h3>V12 vs W16: ¿cuál motor te hace más caso?</h3>
-                    <p>No todos los monstruos rugen igual. Analizamos las diferencias reales entre los dos motores más
-                        brutales del mercado actual.</p>
-                    <a href="#" class="blog-link">Leer más →</a>
-                </article>
+                    <!-- PÁGINA 2: Eventos pasados -->
+                    <div class="flip-page">
+                        <div class="flip-img">
+                            <img src="multimedia_cash/flipbook_event.png" alt="Evento Cash & Flow">
+                        </div>
+                        <div class="flip-text">
+                            <span class="flip-tag">EVENTOS</span>
+                            <h3>Noches que no se olvidan</h3>
+                            <p>Cada reunión de Cash &amp; Flow es una experiencia: motores que encienden conversaciones,
+                                modelos que detienen el tiempo y una comunidad que comparte la misma pasión.</p>
+                            <p>Si estuviste, ya sabes. Si no, no te pierdas el próximo.</p>
+                        </div>
+                    </div>
+
+                    <!-- PÁGINA 3: Comunidad -->
+                    <div class="flip-page">
+                        <div class="flip-img"
+                            style="background: linear-gradient(135deg, #0b0c10 0%, #1a1a2e 50%, #16213e 100%); display:flex; align-items:center; justify-content:center;">
+                            <div style="text-align:center; padding: 2rem;">
+                                <div style="font-size: 5rem; margin-bottom: 1rem;">🏎️</div>
+                                <div
+                                    style="font-size: 1.2rem; color: var(--accent-color); letter-spacing: 3px; font-weight: 700;">
+                                    LA COMUNIDAD</div>
+                            </div>
+                        </div>
+                        <div class="flip-text">
+                            <span class="flip-tag">COMUNIDAD</span>
+                            <h3>Más que clientes, somos familia</h3>
+                            <p>El verdadero motor de Cash &amp; Flow no está bajo el cofre — está en cada persona que
+                                confía en nosotros para encontrar su próximo vehículo.</p>
+                            <p>Una red de entusiastas, coleccionistas y amantes de la velocidad que crecen juntos cada
+                                mes.</p>
+                        </div>
+                    </div>
+
+                    <!-- PÁGINA 4: Modelos exclusivos -->
+                    <div class="flip-page">
+                        <div class="flip-img">
+                            <img src="multimedia_cash/flipbook_garage.png" alt="Modelos exclusivos"
+                                style="filter: hue-rotate(30deg) saturate(1.3);">
+                        </div>
+                        <div class="flip-text">
+                            <span class="flip-tag">INVENTARIO</span>
+                            <h3>Del pixel al pavimento</h3>
+                            <p>Si lo viste en GTA, en una película o en tus sueños — pregúntanos. Nuestro acceso a
+                                inventario reservado nos permite gestionar modelos que no aparecen en ningún catálogo
+                                público.</p>
+                            <p>Availability under request. Discreción garantizada.</p>
+                        </div>
+                    </div>
+
+                </div><!-- /flipbook -->
+
+                <!-- Controles del flipbook -->
+                <div class="flip-controls">
+                    <button class="flip-btn" id="flipPrev" aria-label="Anterior">‹</button>
+                    <div class="flip-dots" id="flipDots">
+                        <span class="flip-dot active" data-idx="0"></span>
+                        <span class="flip-dot" data-idx="1"></span>
+                        <span class="flip-dot" data-idx="2"></span>
+                        <span class="flip-dot" data-idx="3"></span>
+                    </div>
+                    <button class="flip-btn" id="flipNext" aria-label="Siguiente">›</button>
+                </div>
+            </div><!-- /flipbook-wrapper -->
+
+        </section><!-- /blog-section -->
+
+        <!-- ========================================
+             EVENTOS
+             ======================================== -->
+        <section id="events" class="events-section">
+            <div class="section-title">
+                <h2>Eventos</h2>
+                <div class="underline"></div>
+            </div>
+
+            <!-- Próximos eventos -->
+            <div class="events-group">
+                <h3 class="events-group-title">Próximos</h3>
+                <div class="events-grid">
+                    <div class="event-card event-card--upcoming">
+                        <div class="event-img">
+                            <img src="multimedia_cash/event_upcoming.png" alt="Próximo evento">
+                            <span class="event-badge event-badge--upcoming">PRÓXIMO</span>
+                        </div>
+                        <div class="event-info">
+                            <div class="event-date">
+                                <span class="event-day">15</span>
+                                <span class="event-month">ABR</span>
+                            </div>
+                            <div class="event-details">
+                                <h4>Cash &amp; Flow Night Vol. 3</h4>
+                                <p>Noche de motores en el Parque Industrial Querétaro. Entrada libre, registro
+                                    requerido. Modelos en exhibición, sorteos y más.</p>
+                                <a href="#contact" class="event-cta">Registrarme →</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Eventos pasados -->
+            <div class="events-group">
+                <h3 class="events-group-title">Pasados</h3>
+                <div class="events-grid">
+                    <div class="event-card">
+                        <div class="event-img">
+                            <img src="multimedia_cash/flipbook_event.png" alt="Evento pasado">
+                            <span class="event-badge">PASADO</span>
+                        </div>
+                        <div class="event-info">
+                            <div class="event-date">
+                                <span class="event-day">18</span>
+                                <span class="event-month">ENE</span>
+                            </div>
+                            <div class="event-details">
+                                <h4>Cash &amp; Flow Night Vol. 2</h4>
+                                <p>Más de 40 vehículos en exhibición, 200+ asistentes y una noche que nadie olvidó.
+                                    Gracias a todos los que estuvieron.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="event-card">
+                        <div class="event-img">
+                            <img src="multimedia_cash/flipbook_garage.png" alt="Primer evento">
+                            <span class="event-badge">PASADO</span>
+                        </div>
+                        <div class="event-info">
+                            <div class="event-date">
+                                <span class="event-day">05</span>
+                                <span class="event-month">SEP</span>
+                            </div>
+                            <div class="event-details">
+                                <h4>Cash &amp; Flow Night Vol. 1</h4>
+                                <p>El inicio de todo. Primer car meet oficial, el garage abrió sus puertas y la
+                                    comunidad respondió. El resto es historia.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
