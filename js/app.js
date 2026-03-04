@@ -22,18 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
         loader.style.opacity = '0';
         loader.style.visibility = 'hidden';
 
-        // Fade out del sonido al mismo tiempo que el loader
-        if (engineSound && !engineSound.paused) {
-            const fadeOut = setInterval(() => {
-                if (engineSound.volume > 0.05) {
-                    engineSound.volume = Math.max(0, engineSound.volume - 0.08);
-                } else {
-                    engineSound.pause();
-                    engineSound.currentTime = 0;
-                    clearInterval(fadeOut);
-                }
-            }, 60);
-        }
 
         const heroWrapper = document.getElementById('heroLogoWrapper');
         if (heroWrapper) {
@@ -287,3 +275,30 @@ function loadInventory() {
 
     startTimer(); // Arrancar el timer automático
 })();
+
+// =====================================================
+// CARRUSEL POR TARJETA DE EVENTO
+// Cada [data-carousel] es independiente
+// =====================================================
+document.querySelectorAll('[data-carousel]').forEach(carousel => {
+    const slides = carousel.querySelectorAll('.evc-slide');
+    const dots = carousel.querySelectorAll('.evc-dot');
+    const prev = carousel.querySelector('.evc-prev');
+    const next = carousel.querySelector('.evc-next');
+    if (slides.length < 2) return;
+
+    let cur = 0;
+
+    function moveTo(idx) {
+        slides[cur].classList.remove('active');
+        dots[cur] && dots[cur].classList.remove('active');
+        cur = (idx + slides.length) % slides.length;
+        slides[cur].classList.add('active');
+        dots[cur] && dots[cur].classList.add('active');
+    }
+
+    prev && prev.addEventListener('click', e => { e.stopPropagation(); moveTo(cur - 1); });
+    next && next.addEventListener('click', e => { e.stopPropagation(); moveTo(cur + 1); });
+    dots.forEach((d, i) => d.addEventListener('click', () => moveTo(i)));
+});
+
