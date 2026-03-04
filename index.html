@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cash & Flow | High-End Sports Cars</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- 3D Loader -->
+    <div id="loader" class="loader-wrapper">
+        <div class="logo-3d-container">
+            <img src="assets/logo.png" alt="Cash & Flow Logo" class="logo-3d" id="loaderLogo">
+            <div class="loader-text">Iniciando Motores...</div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main id="main-content" style="display: none;">
+
+        <!-- Video de fondo — controlado por scroll (playbackRate) -->
+        <div class="global-video-bg">
+            <video id="scrollVideo" muted playsinline preload="auto">
+                <source src="NUDRE3547.MOV" type="video/quicktime">
+                <source src="NUDRE3547.MOV" type="video/mp4">
+            </video>
+            <div class="video-overlay"></div>
+        </div>
+
+        <nav class="navbar glassmorphism">
+            <div class="nav-logo">CASH & FLOW</div>
+            <ul class="nav-links">
+                <li><a href="#inventory">Inventario</a></li>
+                <li><a href="#contact">Contacto</a></li>
+                <li><a href="admin.html" class="admin-btn">Admin</a></li>
+            </ul>
+        </nav>
+
+        <header class="hero">
+            <!-- El logo aterrizará aquí después del loader -->
+            <div class="hero-logo-wrapper" id="heroLogoWrapper">
+                <!-- El JS inyectará el logo aquí con animación de vuelo -->
+            </div>
+
+            <div class="hero-content">
+                <h1>Tu Próxima Aventura Sobre Ruedas</h1>
+                <p>Todos los modelos y vehículos exóticos a tu disposición.<br>Agenda tu cita y siente la velocidad
+                    pura.</p>
+                <div class="hero-buttons">
+                    <a href="#inventory" class="cta-button">Ver Inventario</a>
+                    <a href="#contact" class="cta-button cta-outline">Agendar Cita</a>
+                </div>
+            </div>
+        </header>
+
+        <section id="inventory" class="inventory-section">
+            <div class="section-title">
+                <h2>Inventario Exclusivo</h2>
+                <div class="underline"></div>
+            </div>
+            <div id="cars-grid" class="cars-grid">
+                <!-- Los carros se cargarán aquí por JS de la DB Mock -->
+            </div>
+        </section>
+    </main>
+
+    <script src="js/db.js"></script>
+    <script src="js/app.js"></script>
+</body>
+
+</html>

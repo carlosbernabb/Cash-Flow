@@ -1,0 +1,9 @@
+# Videos pesados — no subir a GitHub (exceden límite de 100MB)
+*.MOV
+*.mov
+*.mp4
+*.MP4
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db

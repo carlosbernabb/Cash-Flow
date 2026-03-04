@@ -1,0 +1,510 @@
+:root {
+    --bg-color: #0b0c10;
+    --text-color: #e5e5e5;
+    --accent-color: #66fcf1;
+    /* Neon cyan for a modern, energetic feel */
+    --accent-glow: rgba(102, 252, 241, 0.4);
+    --glass-bg: rgba(20, 20, 20, 0.5);
+    --glass-border: rgba(255, 255, 255, 0.05);
+    --font-primary: 'Outfit', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-primary);
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    /* Removemos bg-color porque el video estará en el fondo atrás de todo */
+}
+
+/* --- Global Video Background --- */
+.global-video-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.global-video-bg video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    /* Escala al 75% para un ángulo más abierto y ver más de la escena */
+    width: 133vw;
+    height: 133vh;
+    transform: translate(-50%, -50%) scale(0.75);
+    object-fit: cover;
+    will-change: transform;
+}
+
+.video-overlay {
+    position: absolute;
+    inset: 0;
+    /* Apenas un velo en la parte superior e inferior, lo del medio queda limpio para ver el video */
+    background: linear-gradient(to bottom,
+            rgba(11, 12, 16, 0.25) 0%,
+            rgba(11, 12, 16, 0.05) 30%,
+            rgba(11, 12, 16, 0.05) 70%,
+            rgba(11, 12, 16, 0.9) 100%);
+    z-index: 1;
+}
+
+/* --- Loader 3D --- */
+.loader-wrapper {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at center, #1a1c23 0%, #0b0c10 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out;
+    perspective: 1500px;
+    /* Strong 3D perspective depth */
+}
+
+.logo-3d-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem;
+    transform-style: preserve-3d;
+}
+
+.logo-3d {
+    width: 250px;
+    height: auto;
+    object-fit: contain;
+    /* Efecto 3D asombroso: rota en Y y flota un poco en Y */
+    animation: spin3D 4s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+    transform-style: preserve-3d;
+    filter: drop-shadow(0 15px 25px var(--accent-glow));
+}
+
+.loader-text {
+    font-size: 1.1rem;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--accent-color);
+    font-weight: 600;
+    animation: pulseText 1.5s infinite alternate;
+}
+
+@keyframes spin3D {
+    0% {
+        transform: rotateY(0deg) scale(1) translateY(0);
+    }
+
+    50% {
+        transform: rotateY(180deg) scale(1.05) translateY(-10px);
+    }
+
+    100% {
+        transform: rotateY(360deg) scale(1) translateY(0);
+    }
+}
+
+@keyframes pulseText {
+    0% {
+        opacity: 0.4;
+        text-shadow: 0 0 5px transparent;
+    }
+
+    100% {
+        opacity: 1;
+        text-shadow: 0 0 15px var(--accent-glow);
+    }
+}
+
+/* Fallback si el usuario aún no pone el png */
+.logo-3d:-moz-broken,
+.logo-3d:not([src]) {
+    content: "LOGO FALTANTE";
+    text-align: center;
+    display: block;
+    width: 150px;
+    height: 150px;
+    border: 1px dashed var(--accent-color);
+    line-height: 150px;
+}
+
+/* --- Hero & Navigation --- */
+.glassmorphism {
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 1.5rem 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    transition: background 0.3s;
+}
+
+.nav-logo {
+    font-size: 1.8rem;
+    font-weight: 800;
+    letter-spacing: 3px;
+    color: var(--text-color);
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 2.5rem;
+    align-items: center;
+}
+
+.nav-links a {
+    color: var(--text-color);
+    text-decoration: none;
+    font-weight: 300;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    transition: color 0.3s, text-shadow 0.3s;
+}
+
+.nav-links a:hover {
+    color: var(--accent-color);
+    text-shadow: 0 0 8px var(--accent-glow);
+}
+
+.admin-btn {
+    border: 1px solid var(--accent-color);
+    padding: 0.6rem 1.8rem;
+    border-radius: 4px;
+    /* Un look más agresivo/deportivo */
+    background: transparent;
+    transition: all 0.3s ease;
+}
+
+.admin-btn:hover {
+    background: var(--accent-color);
+    color: var(--bg-color) !important;
+    box-shadow: 0 0 15px var(--accent-glow);
+}
+
+.hero {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 1.5rem;
+}
+
+/* ==============================
+   LOGO HERO — vuelo + tilt 3D
+   ============================== */
+.hero-logo-wrapper {
+    position: relative;
+    z-index: 3;
+    /* El JS controla completamente el vuelo del logo — sin animation CSS aquí */
+    min-height: 140px;
+    /* Reservamos espacio para cuando el logo aterrice */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes logoFlyIn {
+    0% {
+        opacity: 0;
+        transform: scale(1.8) translateY(-60px);
+    }
+
+    60% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* El img dentro del wrapper — metallic filter + tilt 3D con CSS vars */
+#heroLogoImg {
+    width: 140px;
+    height: auto;
+    filter:
+        drop-shadow(0 0 18px rgba(102, 252, 241, 0.5)) drop-shadow(0 8px 20px rgba(0, 0, 0, 0.8));
+    transition: filter 0.3s ease;
+    transform-style: preserve-3d;
+    /* Las vars --rx y --ry las controla JS en mousemove */
+    transform: perspective(600px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) scale(var(--sc, 1));
+    transition: transform 0.15s ease-out, filter 0.3s ease;
+    cursor: pointer;
+    will-change: transform;
+}
+
+#heroLogoImg:hover {
+    filter:
+        drop-shadow(0 0 30px rgba(102, 252, 241, 0.8)) drop-shadow(0 12px 30px rgba(0, 0, 0, 0.9));
+}
+
+.hero-content {
+    position: relative;
+    z-index: 3;
+    padding: 0 20px;
+    max-width: 900px;
+    /* Eliminamos el margin-top negativo porque ahora el logo está arriba */
+}
+
+.hero-content h1 {
+    font-size: 5rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    line-height: 1.1;
+    /* Sombra fuerte para que el texto sea legible encima del video */
+    text-shadow: 0 4px 30px rgba(0, 0, 0, 0.9), 0 0 60px rgba(0, 0, 0, 0.7);
+    color: #ffffff;
+}
+
+.hero-content p {
+    font-size: 1.5rem;
+    margin-bottom: 3rem;
+    color: #b0b0b0;
+    font-weight: 300;
+    letter-spacing: 1px;
+}
+
+.cta-button {
+    display: inline-block;
+    background: var(--accent-color);
+    color: var(--bg-color);
+    padding: 1.2rem 3.5rem;
+    font-size: 1.1rem;
+    font-weight: 800;
+    text-decoration: none;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s;
+}
+
+.cta-outline {
+    background: transparent;
+    border: 2px solid var(--accent-color);
+    color: var(--accent-color);
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.cta-button:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 15px 35px rgba(102, 252, 241, 0.4);
+}
+
+/* Sections */
+.section-title {
+    text-align: center;
+    margin-bottom: 5rem;
+}
+
+.section-title h2 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.underline {
+    height: 4px;
+    width: 80px;
+    background: var(--accent-color);
+    margin: 1.5rem auto 0;
+    border-radius: 5px;
+    box-shadow: 0 0 10px var(--accent-glow);
+}
+
+.inventory-section {
+    padding: 8rem 5%;
+    min-height: 100vh;
+}
+
+/* Cars Grid */
+.cars-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 3rem;
+}
+
+/* Car Card styling */
+.car-card {
+    background: rgba(12, 12, 17, 0.72);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 16px;
+    overflow: hidden;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition:
+        transform 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+        box-shadow 0.45s ease,
+        border-color 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    position: relative;
+}
+
+/* Glow border sweep al hacer hover */
+.car-card::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: 17px;
+    background: linear-gradient(135deg, var(--accent-color), transparent 50%, var(--accent-color));
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.car-card:hover::before {
+    opacity: 0.25;
+}
+
+.car-card:hover {
+    transform: translateY(-14px) scale(1.02);
+    box-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.8),
+        0 0 30px rgba(102, 252, 241, 0.2),
+        0 0 60px rgba(102, 252, 241, 0.08);
+    border-color: rgba(102, 252, 241, 0.4);
+}
+
+.car-image-container {
+    width: 100%;
+    height: 240px;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Overlay de color al hacer hover sobre la imagen */
+.car-image-container::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom,
+            transparent 40%,
+            rgba(102, 252, 241, 0.12) 70%,
+            rgba(11, 12, 16, 0.6) 100%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.car-card:hover .car-image-container::after {
+    opacity: 1;
+}
+
+.car-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.4s ease;
+    filter: brightness(0.9) saturate(1.1);
+}
+
+.car-card:hover .car-image-container img {
+    transform: scale(1.1);
+    filter: brightness(1.05) saturate(1.3);
+}
+
+.car-info {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.car-brand {
+    font-size: 0.9rem;
+    color: var(--accent-color);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 0.2rem;
+}
+
+.car-model {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+}
+
+.car-price {
+    font-size: 1.2rem;
+    font-weight: 300;
+    color: #fff;
+    margin-bottom: 1.5rem;
+}
+
+.car-specs {
+    list-style: none;
+    margin-bottom: 1.5rem;
+    flex-grow: 1;
+}
+
+.car-specs li {
+    font-size: 0.9rem;
+    color: #b0b0b0;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.car-specs li::before {
+    content: '❯';
+    color: var(--accent-color);
+    margin-right: 8px;
+    font-size: 0.8rem;
+}
+
+.btn-details {
+    text-align: center;
+    padding: 0.8rem;
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-color);
+    text-decoration: none;
+    border: 1px solid var(--glass-border);
+    border-radius: 4px;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.btn-details:hover {
+    background: var(--accent-color);
+    color: var(--bg-color);
+    border-color: var(--accent-color);
+    box-shadow: 0 0 15px var(--accent-glow);
+}

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cash & Flow | Admin Panel</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos específicos para el Panel de Admin */
+        body {
+            padding-top: 100px;
+        }
+
+        .admin-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 3rem;
+        }
+
+        .admin-form-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .admin-form-card h2 {
+            margin-bottom: 1.5rem;
+            color: var(--accent-color);
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: #b0b0b0;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border-radius: 6px;
+            border: 1px solid var(--glass-border);
+            background: rgba(0, 0, 0, 0.3);
+            color: white;
+            font-family: var(--font-primary);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 10px rgba(102, 252, 241, 0.2);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background: var(--accent-color);
+            color: var(--bg-color);
+            border: none;
+            border-radius: 6px;
+            font-weight: 800;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            box-shadow: 0 0 20px var(--accent-glow);
+            transform: translateY(-2px);
+        }
+
+        /* Admin Listado */
+        .admin-list {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 2rem;
+        }
+
+        .admin-car-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .admin-car-item:last-child {
+            border-bottom: none;
+        }
+
+        .btn-delete {
+            background: #ff4757;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-delete:hover {
+            background: #ff6b81;
+            box-shadow: 0 0 10px rgba(255, 71, 87, 0.5);
+        }
+
+        @media (max-width: 900px) {
+            .admin-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar glassmorphism">
+        <div class="nav-logo">CASH & FLOW <span style="font-size: 0.9rem; color: var(--accent-color);">ADMIN</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">← Volver al Sitio</a></li>
+        </ul>
+    </nav>
+
+    <div class="admin-container">
+        <!-- Columna Izquierda: Formulario -->
+        <div class="admin-form-card">
+            <h2>Agregar Nuevo Deportivo</h2>
+            <form id="add-car-form">
+                <div class="form-group">
+                    <label>Marca</label>
+                    <input type="text" id="car-brand" required placeholder="Ej. Porsche">
+                </div>
+                <div class="form-group">
+                    <label>Modelo</label>
+                    <input type="text" id="car-model" required placeholder="Ej. 911 GT3">
+                </div>
+                <div class="form-group">
+                    <label>Año</label>
+                    <input type="number" id="car-year" required placeholder="Ej. 2024">
+                </div>
+                <div class="form-group">
+                    <label>Precio (MXN / USD)</label>
+                    <input type="text" id="car-price" required placeholder="Ej. $4,500,000 MXN">
+                </div>
+                <div class="form-group">
+                    <label>Motor</label>
+                    <input type="text" id="car-engine" required placeholder="Ej. 4.0L Flat-6">
+                </div>
+                <div class="form-group">
+                    <label>Caballos de Fuerza (HP)</label>
+                    <input type="text" id="car-hp" required placeholder="Ej. 500 HP">
+                </div>
+                <div class="form-group">
+                    <label>Aceleración 0-100</label>
+                    <input type="text" id="car-accel" required placeholder="Ej. 3.2s">
+                </div>
+                <div class="form-group">
+                    <label>URL de Imagen</label>
+                    <input type="url" id="car-image" required placeholder="https://...">
+                </div>
+                <button type="submit" class="submit-btn">Guardar Vehículo</button>
+            </form>
+        </div>
+
+        <!-- Columna Derecha: Listado -->
+        <div class="admin-list">
+            <h2>Inventario Actual</h2>
+            <br>
+            <div id="admin-cars-list">
+                <!-- Se llenará con JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/db.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+
+</html>
