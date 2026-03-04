@@ -1,0 +1,209 @@
+/* inventario.css */
+.inventory-page {
+    padding-top: 100px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+}
+
+.inv-header {
+    text-align: center;
+    margin-top: 2rem;
+    animation: fadeIn 2s ease-in-out forwards;
+    opacity: 0;
+}
+
+.inv-hero-img {
+    height: 360px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 15px var(--accent-color));
+}
+
+.inv-title {
+    font-size: 3rem;
+    font-weight: 800;
+    letter-spacing: 5px;
+    color: var(--text-color);
+    margin-top: 1rem;
+    text-shadow: 0 0 10px var(--accent-glow);
+}
+
+.inv-subtitle {
+    font-size: 1.1rem;
+    color: var(--accent-color);
+    margin-top: 0.5rem;
+    font-weight: 400;
+    letter-spacing: 2px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.inv-search-container {
+    width: 95%;
+    max-width: 1400px;
+    margin: 3rem auto 2rem;
+}
+
+.inv-search-bar {
+    width: 100%;
+    padding: 1.2rem 1.8rem;
+    font-size: 1.1rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(20, 20, 25, 0.6);
+    color: #fff;
+    backdrop-filter: blur(10px);
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.inv-search-bar::placeholder {
+    color: #b0b0b0;
+}
+
+.inv-search-bar:focus {
+    outline: none;
+    box-shadow: 0 0 15px var(--accent-glow);
+    border-color: var(--accent-color);
+}
+
+.inv-layout {
+    display: flex;
+    width: 95%;
+    max-width: 1400px;
+    margin: 0 auto;
+    gap: 2rem;
+    padding-bottom: 4rem;
+}
+
+.inv-sidebar {
+    width: 280px;
+    flex-shrink: 0;
+    background: rgba(20, 20, 25, 0.8);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 1.8rem;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+}
+
+.inv-sidebar h3 {
+    margin-bottom: 1.5rem;
+    font-size: 1.3rem;
+    font-weight: 800;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 0.8rem;
+    color: var(--text-color);
+}
+
+.filter-group {
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.filter-group:last-child {
+    margin-bottom: 0;
+}
+
+.filter-group label {
+    font-size: 0.95rem;
+    color: #e0e0e0;
+    margin-bottom: 0.6rem;
+    font-weight: 600;
+}
+
+.filter-group select {
+    padding: 0.8rem;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.3s ease, background 0.3s ease;
+    font-family: inherit;
+    font-size: 0.95rem;
+}
+
+.filter-group select:hover {
+    border-color: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.filter-group select:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 10px rgba(102, 252, 241, 0.2);
+}
+
+.filter-group select option {
+    background: var(--bg-color);
+    color: #fff;
+}
+
+.inv-results {
+    flex-grow: 1;
+}
+
+.inv-cars-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Modifiers for the generic styles.css car cards to make them more compact/square */
+.inv-car-card {
+    border-radius: 12px;
+}
+
+.inv-car-image-container {
+    height: 220px;
+}
+
+.inv-car-info {
+    padding: 1.2rem;
+}
+
+.inv-car-model {
+    font-size: 1.4rem;
+    margin-bottom: 0.4rem;
+}
+
+.inv-car-price {
+    font-size: 1.15rem;
+    margin-bottom: 1rem;
+    color: #fff;
+}
+
+.inv-car-specs {
+    margin-bottom: 1rem;
+}
+
+.inv-car-specs li {
+    font-size: 0.85rem;
+    margin-bottom: 0.4rem;
+}
+
+@media (max-width: 900px) {
+    .inv-layout {
+        flex-direction: column;
+    }
+
+    .inv-sidebar {
+        width: 100%;
+    }
+}

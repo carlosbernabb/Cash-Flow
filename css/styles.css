@@ -182,7 +182,8 @@ body {
     transition: color 0.3s, text-shadow 0.3s;
 }
 
-.nav-links a:hover {
+.nav-links a:hover,
+.nav-links a.active {
     color: var(--accent-color);
     text-shadow: 0 0 8px var(--accent-glow);
 }

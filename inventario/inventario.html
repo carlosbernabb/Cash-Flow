@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cash & Flow | Inventario Detallado</title>
+    <!-- Use the existing CSS for general styles -->
+    <link rel="stylesheet" href="../css/styles.css">
+    <!-- Our new specific styles for inventario -->
+    <link rel="stylesheet" href="inventario.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Main Content -->
+    <main id="main-content">
+
+        <!-- Fondo sólido sin video -->
+        <div
+            style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; background-color: var(--bg-color);">
+        </div>
+
+        <nav class="navbar glassmorphism">
+            <div class="nav-logo"><a href="../index.html" style="color:inherit; text-decoration:none;">CASH & FLOW</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="../index.html#blog">Nosotros</a></li>
+                <li><a href="inventario.html" class="active">Inventario</a></li>
+                <li><a href="../index.html#events">Eventos</a></li>
+                <li><a href="../index.html#contact">Contacto</a></li>
+                <li><a href="../admin.html" class="admin-btn">Admin</a></li>
+            </ul>
+        </nav>
+
+        <section class="inventory-page">
+            <header class="inv-header">
+                <img src="coche_neon.png" alt="Coche Neon" class="inv-hero-img">
+                <h1 class="inv-title">INVENTARIO</h1>
+                <h2 class="inv-subtitle">El coche de tus sueños al alcance de la punta de tus dedos</h2>
+            </header>
+
+            <div class="inv-search-container">
+                <input type="text" placeholder="Busca por modelo, marca..." class="inv-search-bar">
+            </div>
+
+            <div class="inv-layout">
+                <!-- Sidebar Filtros (Kavak Style layout) -->
+                <aside class="inv-sidebar">
+                    <h3>Filtros</h3>
+
+                    <div class="filter-group">
+                        <label>Precio</label>
+                        <select>
+                            <option>Todos</option>
+                            <option>Hasta $1,000,000</option>
+                            <option>$1,000,001 - $3,000,000</option>
+                            <option>Más de $3,000,000</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label>Marca</label>
+                        <select>
+                            <option>Todas</option>
+                            <option>Porsche</option>
+                            <option>Mercedes-Benz</option>
+                            <option>Audi</option>
+                            <option>BMW</option>
+                            <option>Lamborghini</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label>Modelo</label>
+                        <select>
+                            <option>Todos</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label>Año</label>
+                        <select>
+                            <option>Todos</option>
+                            <option>2024</option>
+                            <option>2023</option>
+                            <option>2022</option>
+                            <option>2021 o anterior</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label>Color Exterior</label>
+                        <select>
+                            <option>Todos</option>
+                            <option>Negro</option>
+                            <option>Blanco</option>
+                            <option>Gris</option>
+                            <option>Plata</option>
+                            <option>Rojo</option>
+                            <option>Azul</option>
+                        </select>
+                    </div>
+                </aside>
+
+                <!-- Grid de resultados -->
+                <section class="inv-results">
+                    <div class="cars-grid inv-cars-grid">
+
+                        <!-- Coche 1 -->
+                        <div class="car-card inv-car-card">
+                            <div class="car-image-container inv-car-image-container">
+                                <img src="imagenes_coches/coche_1.jpeg" alt="Coche 1">
+                            </div>
+                            <div class="car-info inv-car-info">
+                                <span class="car-brand">Mercedes-Benz</span>
+                                <h3 class="car-model">AMG G63</h3>
+                                <p class="car-price">$4,500,000</p>
+                                <ul class="car-specs inv-car-specs">
+                                    <li>Año: 2023</li>
+                                    <li>Color: Negro</li>
+                                    <li>Automático</li>
+                                </ul>
+                                <a href="#" class="btn-details">Ver Detalles</a>
+                            </div>
+                        </div>
+
+                        <!-- Coche 2 -->
+                        <div class="car-card inv-car-card">
+                            <div class="car-image-container inv-car-image-container">
+                                <img src="imagenes_coches/coche_2.jpeg" alt="Coche 2">
+                            </div>
+                            <div class="car-info inv-car-info">
+                                <span class="car-brand">Audi</span>
+                                <h3 class="car-model">RS Q8</h3>
+                                <p class="car-price">$3,200,000</p>
+                                <ul class="car-specs inv-car-specs">
+                                    <li>Año: 2024</li>
+                                    <li>Color: Gris Daytona</li>
+                                    <li>Automático</li>
+                                </ul>
+                                <a href="#" class="btn-details">Ver Detalles</a>
+                            </div>
+                        </div>
+
+                        <!-- Coche 3 -->
+                        <div class="car-card inv-car-card">
+                            <div class="car-image-container inv-car-image-container">
+                                <img src="imagenes_coches/coche_3.jpeg" alt="Coche 3">
+                            </div>
+                            <div class="car-info inv-car-info">
+                                <span class="car-brand">Porsche</span>
+                                <h3 class="car-model">911 GT3 RS</h3>
+                                <p class="car-price">$4,800,000</p>
+                                <ul class="car-specs inv-car-specs">
+                                    <li>Año: 2023</li>
+                                    <li>Color: Plata GT</li>
+                                    <li>Automático</li>
+                                </ul>
+                                <a href="#" class="btn-details">Ver Detalles</a>
+                            </div>
+                        </div>
+
+                        <!-- Coche 4 -->
+                        <div class="car-card inv-car-card">
+                            <div class="car-image-container inv-car-image-container">
+                                <img src="imagenes_coches/coche_4.jpeg" alt="Coche 4">
+                            </div>
+                            <div class="car-info inv-car-info">
+                                <span class="car-brand">BMW</span>
+                                <h3 class="car-model">M4 Competition</h3>
+                                <p class="car-price">$2,300,000</p>
+                                <ul class="car-specs inv-car-specs">
+                                    <li>Año: 2022</li>
+                                    <li>Color: Blanco Alpino</li>
+                                    <li>Automático</li>
+                                </ul>
+                                <a href="#" class="btn-details">Ver Detalles</a>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+            </div>
+        </section>
+
+        <!-- FOOTER / CONTACTO -->
+        <footer id="contact" class="site-footer">
+            <div class="footer-logo">CASH &amp; FLOW</div>
+            <p class="footer-tagline">Querétaro, México — El garage de los que saben.</p>
+            <div class="footer-links">
+                <a href="inventario.html">Inventario</a>
+                <a href="../index.html#blog">Blog</a>
+                <a href="../admin.html">Admin</a>
+            </div>
+            <p class="footer-copy">© 2024 Cash &amp; Flow. Todos los derechos reservados.</p>
+        </footer>
+
+    </main>
+</body>
+
+</html>
