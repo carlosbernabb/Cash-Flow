@@ -508,3 +508,230 @@ body {
     border-color: var(--accent-color);
     box-shadow: 0 0 15px var(--accent-glow);
 }
+
+/* ============================================
+   INVENTORY FOOTER — remate inferior tipo tarjeta
+   ============================================ */
+.inventory-section {
+    /* Bordes redondeados abajo para el efecto tarjeta, SIN fondo sólido */
+    border-radius: 0 0 40px 40px;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+    position: relative;
+    z-index: 2;
+    /* Sin background — el video se ve a través de las tarjetas glassmorphism */
+}
+
+.inventory-footer {
+    text-align: center;
+    padding: 4rem 2rem 5rem;
+    border-top: 1px solid var(--glass-border);
+    margin-top: 4rem;
+}
+
+.inventory-footer p {
+    color: #b0b0b0;
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    font-weight: 300;
+}
+
+/* ============================================
+   BLOG / MANIFIESTO
+   ============================================ */
+.blog-section {
+    padding: 8rem 5%;
+    background: linear-gradient(180deg, #0b0c10 0%, #0d0e14 100%);
+    position: relative;
+    z-index: 1;
+}
+
+/* Speech / Manifiesto de la marca */
+.brand-speech {
+    max-width: 800px;
+    margin: 0 auto 6rem;
+    text-align: center;
+}
+
+.speech-eyebrow {
+    display: inline-block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    color: var(--accent-color);
+    margin-bottom: 1.5rem;
+    padding: 0.4rem 1.2rem;
+    border: 1px solid rgba(102, 252, 241, 0.3);
+    border-radius: 100px;
+}
+
+.speech-title {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 2rem;
+    color: #fff;
+}
+
+.speech-title em {
+    font-style: normal;
+    color: var(--accent-color);
+}
+
+.speech-body {
+    font-size: 1.15rem;
+    line-height: 1.9;
+    color: #9a9aaa;
+    font-weight: 300;
+}
+
+.speech-body strong {
+    color: #fff;
+    font-weight: 600;
+}
+
+.speech-divider {
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+    margin: 3rem auto 0;
+}
+
+/* Blog grid */
+.blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.blog-card {
+    background: rgba(20, 20, 28, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 16px;
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.blog-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.blog-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 20px rgba(102, 252, 241, 0.08);
+    border-color: rgba(102, 252, 241, 0.2);
+}
+
+.blog-card:hover::before {
+    opacity: 1;
+}
+
+/* Tarjeta destacada */
+.blog-card--featured {
+    border-color: rgba(102, 252, 241, 0.15);
+    background: rgba(102, 252, 241, 0.04);
+}
+
+.blog-tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: var(--accent-color);
+    text-transform: uppercase;
+    align-self: flex-start;
+}
+
+.blog-card h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    line-height: 1.4;
+    color: #fff;
+}
+
+.blog-card p {
+    font-size: 0.95rem;
+    color: #8888a0;
+    line-height: 1.7;
+    flex-grow: 1;
+}
+
+.blog-link {
+    color: var(--accent-color);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    transition: letter-spacing 0.3s ease, opacity 0.3s ease;
+    align-self: flex-start;
+}
+
+.blog-link:hover {
+    letter-spacing: 2px;
+    opacity: 0.8;
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+.site-footer {
+    padding: 4rem 5% 3rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    text-align: center;
+    background: #08080c;
+}
+
+.footer-logo {
+    font-size: 1.8rem;
+    font-weight: 800;
+    letter-spacing: 4px;
+    color: #fff;
+    margin-bottom: 0.8rem;
+}
+
+.footer-tagline {
+    color: #555;
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
+    letter-spacing: 1px;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 2.5rem;
+    margin-bottom: 2.5rem;
+}
+
+.footer-links a {
+    color: #666;
+    text-decoration: none;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: var(--accent-color);
+}
+
+.footer-copy {
+    color: #333;
+    font-size: 0.8rem;
+}

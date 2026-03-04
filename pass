@@ -1,0 +1,6 @@
+
+npx serve .
+
+python -m http.server 8080
+
+Start-Process index.html

@@ -21,7 +21,7 @@
     <!-- Main Content -->
     <main id="main-content" style="display: none;">
 
-        <!-- Video de fondo — controlado por scroll (playbackRate) -->
+        <!-- Video de fondo — scrubbing bidireccional via playbackRate -->
         <div class="global-video-bg">
             <video id="scrollVideo" muted playsinline preload="auto">
                 <source src="NUDRE3547.MOV" type="video/quicktime">
@@ -64,11 +64,78 @@
             <div id="cars-grid" class="cars-grid">
                 <!-- Los carros se cargarán aquí por JS de la DB Mock -->
             </div>
+
+            <!-- Remate inferior de la "tarjeta" del inventario -->
+            <div class="inventory-footer">
+                <p>¿No encontraste lo que buscas? Tenemos acceso a inventario exclusivo bajo pedido.</p>
+                <a href="#contact" class="cta-button">Hablar con un asesor</a>
+            </div>
         </section>
+
+        <!-- ==============================
+             SECCIÓN BLOG / MANIFIESTO
+             ============================== -->
+        <section id="blog" class="blog-section">
+
+            <!-- Speech / Manifiesto de la marca -->
+            <div class="brand-speech">
+                <span class="speech-eyebrow">Cash &amp; Flow</span>
+                <h2 class="speech-title">No vendemos coches.<br>Vendemos <em>libertad sobre ruedas.</em></h2>
+                <p class="speech-body">
+                    Cada motor que sale de nuestro garage lleva consigo una promesa: que el asfalto
+                    es tuyo. Que la ciudad te pertenece. Que el semáforo en verde no es una señal
+                    de tránsito — es una invitación. Desde Querétaro para el mundo, traemos
+                    los vehículos que la mayoría solo ve en pantalla.
+                    <strong>Nosotros te los ponemos en la cochera.</strong>
+                </p>
+                <div class="speech-divider"></div>
+            </div>
+
+            <!-- Blog posts -->
+            <div class="blog-grid">
+                <article class="blog-card">
+                    <div class="blog-tag">GUÍA</div>
+                    <h3>¿Cómo financiar un superdeportivo sin morir en el intento?</h3>
+                    <p>La verdad que los bancos no te cuentan sobre créditos para vehículos de lujo en México. Tips
+                        reales de nuestros asesores.</p>
+                    <a href="#" class="blog-link">Leer más →</a>
+                </article>
+
+                <article class="blog-card blog-card--featured">
+                    <div class="blog-tag">CULTURA</div>
+                    <h3>GTA VI llega — y nosotros ya tenemos los coches reales</h3>
+                    <p>Del píxel al pavimento. Los modelos que Rockstar inmortalizó en el juego y que tú puedes manejar
+                        en la vida real, los tenemos en inventario.</p>
+                    <a href="#" class="blog-link">Leer más →</a>
+                </article>
+
+                <article class="blog-card">
+                    <div class="blog-tag">TÉCNICO</div>
+                    <h3>V12 vs W16: ¿cuál motor te hace más caso?</h3>
+                    <p>No todos los monstruos rugen igual. Analizamos las diferencias reales entre los dos motores más
+                        brutales del mercado actual.</p>
+                    <a href="#" class="blog-link">Leer más →</a>
+                </article>
+            </div>
+        </section>
+
+        <!-- FOOTER / CONTACTO -->
+        <footer id="contact" class="site-footer">
+            <div class="footer-logo">CASH &amp; FLOW</div>
+            <p class="footer-tagline">Querétaro, México — El garage de los que saben.</p>
+            <div class="footer-links">
+                <a href="#inventory">Inventario</a>
+                <a href="#blog">Blog</a>
+                <a href="admin.html">Admin</a>
+            </div>
+            <p class="footer-copy">© 2024 Cash &amp; Flow. Todos los derechos reservados.</p>
+        </footer>
+
     </main>
 
     <script src="js/db.js"></script>
     <script src="js/app.js"></script>
+
 </body>
 
 </html>
