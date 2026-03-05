@@ -107,77 +107,7 @@
                 <section class="inv-results">
                     <div class="cars-grid inv-cars-grid">
 
-                        <!-- Coche 1 -->
-                        <div class="car-card inv-car-card">
-                            <div class="car-image-container inv-car-image-container">
-                                <img src="imagenes_coches/coche_1.jpeg" alt="Coche 1">
-                            </div>
-                            <div class="car-info inv-car-info">
-                                <span class="car-brand">Mercedes-Benz</span>
-                                <h3 class="car-model">AMG G63</h3>
-                                <p class="car-price">$4,500,000</p>
-                                <ul class="car-specs inv-car-specs">
-                                    <li>Año: 2023</li>
-                                    <li>Color: Negro</li>
-                                    <li>Automático</li>
-                                </ul>
-                                <a href="#" class="btn-details">Ver Detalles</a>
-                            </div>
-                        </div>
-
-                        <!-- Coche 2 -->
-                        <div class="car-card inv-car-card">
-                            <div class="car-image-container inv-car-image-container">
-                                <img src="imagenes_coches/coche_2.jpeg" alt="Coche 2">
-                            </div>
-                            <div class="car-info inv-car-info">
-                                <span class="car-brand">Audi</span>
-                                <h3 class="car-model">RS Q8</h3>
-                                <p class="car-price">$3,200,000</p>
-                                <ul class="car-specs inv-car-specs">
-                                    <li>Año: 2024</li>
-                                    <li>Color: Gris Daytona</li>
-                                    <li>Automático</li>
-                                </ul>
-                                <a href="#" class="btn-details">Ver Detalles</a>
-                            </div>
-                        </div>
-
-                        <!-- Coche 3 -->
-                        <div class="car-card inv-car-card">
-                            <div class="car-image-container inv-car-image-container">
-                                <img src="imagenes_coches/coche_3.jpeg" alt="Coche 3">
-                            </div>
-                            <div class="car-info inv-car-info">
-                                <span class="car-brand">Porsche</span>
-                                <h3 class="car-model">911 GT3 RS</h3>
-                                <p class="car-price">$4,800,000</p>
-                                <ul class="car-specs inv-car-specs">
-                                    <li>Año: 2023</li>
-                                    <li>Color: Plata GT</li>
-                                    <li>Automático</li>
-                                </ul>
-                                <a href="#" class="btn-details">Ver Detalles</a>
-                            </div>
-                        </div>
-
-                        <!-- Coche 4 -->
-                        <div class="car-card inv-car-card">
-                            <div class="car-image-container inv-car-image-container">
-                                <img src="imagenes_coches/coche_4.jpeg" alt="Coche 4">
-                            </div>
-                            <div class="car-info inv-car-info">
-                                <span class="car-brand">BMW</span>
-                                <h3 class="car-model">M4 Competition</h3>
-                                <p class="car-price">$2,300,000</p>
-                                <ul class="car-specs inv-car-specs">
-                                    <li>Año: 2022</li>
-                                    <li>Color: Blanco Alpino</li>
-                                    <li>Automático</li>
-                                </ul>
-                                <a href="#" class="btn-details">Ver Detalles</a>
-                            </div>
-                        </div>
+                        <!-- Inventory will be loaded dynamically by js/inventario.js -->
 
                     </div>
                 </section>
@@ -197,6 +127,13 @@
         </footer>
 
     </main>
+
+    <!-- Supabase JS Client & Initialization -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="../js/supabase.js"></script>
+
+    <!-- Dynamic Fetching -->
+    <script src="../js/inventario.js"></script>
 </body>
 
 </html>

@@ -22,13 +22,11 @@
     <!-- Main Content -->
     <main id="main-content" style="display: none;">
 
-        <!-- Video de fondo — scrubbing bidireccional via playbackRate -->
+        <!-- Video de fondo (controlado por scroll) -->
         <div class="global-video-bg">
-            <video id="scrollVideo" muted playsinline preload="auto">
-                <source src="NUDRE3547.MOV" type="video/quicktime">
-                <source src="NUDRE3547.MOV" type="video/mp4">
+            <video id="bgVideo" muted playsinline preload="auto">
+                <source src="Video Project 2.mp4" type="video/mp4">
             </video>
-            <div class="video-overlay"></div>
         </div>
 
         <nav class="navbar glassmorphism">
@@ -42,38 +40,42 @@
             </ul>
         </nav>
 
-        <header class="hero">
-            <!-- El logo aterrizará aquí después del loader -->
-            <div class="hero-logo-wrapper" id="heroLogoWrapper">
-                <!-- El JS inyectará el logo aquí con animación de vuelo -->
-            </div>
+        <div class="top-sections-wrapper" style="position: relative;">
+            <div class="video-overlay" style="z-index: 0; pointer-events: none;"></div>
 
-            <div class="hero-content">
-                <h1>Tu Próxima Aventura Sobre Ruedas</h1>
-                <p>Todos los modelos y vehículos exóticos a tu disposición.<br>Agenda tu cita y siente la velocidad
-                    pura.</p>
-                <div class="hero-buttons">
-                    <a href="inventario/inventario.html" class="cta-button">Ver Inventario</a>
-                    <a href="#contact" class="cta-button cta-outline">Agendar Cita</a>
+            <header class="hero">
+                <!-- El logo aterrizará aquí después del loader -->
+                <div class="hero-logo-wrapper" id="heroLogoWrapper">
+                    <!-- El JS inyectará el logo aquí con animación de vuelo -->
                 </div>
-            </div>
-        </header>
 
-        <section id="inventory" class="inventory-section">
-            <div class="section-title">
-                <h2>Inventario Exclusivo</h2>
-                <div class="underline"></div>
-            </div>
-            <div id="cars-grid" class="cars-grid">
-                <!-- Los carros se cargarán aquí por JS de la DB Mock -->
-            </div>
+                <div class="hero-content">
+                    <h1>Tu Próxima Aventura Sobre Ruedas</h1>
+                    <p>Todos los modelos y vehículos exóticos a tu disposición.<br>Agenda tu cita y siente la velocidad
+                        pura.</p>
+                    <div class="hero-buttons">
+                        <a href="inventario/inventario.html" class="cta-button">Ver Inventario</a>
+                        <a href="#contact" class="cta-button cta-outline">Agendar Cita</a>
+                    </div>
+                </div>
+            </header>
 
-            <!-- Remate inferior de la "tarjeta" del inventario -->
-            <div class="inventory-footer">
-                <p>¿No encontraste lo que buscas? Tenemos acceso a inventario exclusivo bajo pedido.</p>
-                <a href="#contact" class="cta-button">Hablar con un asesor</a>
-            </div>
-        </section>
+            <section id="inventory" class="inventory-section">
+                <div class="section-title">
+                    <h2>Inventario Exclusivo</h2>
+                    <div class="underline"></div>
+                </div>
+                <div id="cars-grid" class="cars-grid">
+                    <!-- Los carros se cargarán aquí por JS de la DB Mock -->
+                </div>
+
+                <!-- Remate inferior de la "tarjeta" del inventario -->
+                <div class="inventory-footer">
+                    <p>¿No encontraste lo que buscas? Tenemos acceso a inventario exclusivo bajo pedido.</p>
+                    <a href="#contact" class="cta-button">Hablar con un asesor</a>
+                </div>
+            </section>
+        </div> <!-- Fin de top-sections-wrapper -->
 
         <!-- ==============================
              SECCIÓN BLOG / MANIFIESTO
@@ -103,7 +105,8 @@
                     <!-- PÁGINA 1: ¿Qué es Cash & Flow? -->
                     <div class="flip-page active">
                         <div class="flip-img">
-                            <img src="multimedia_cash/flipbook_garage.png" alt="Cash & Flow Garage">
+                            <img src="multimedia_cash/flipbook_garage.png" alt="Cash & Flow">
+                            <img class="photo-logo" src="assets/logo.png" alt="Cash & Flow">
                         </div>
                         <div class="flip-text">
                             <span class="flip-tag">NUESTRA HISTORIA</span>
@@ -120,6 +123,7 @@
                     <div class="flip-page">
                         <div class="flip-img">
                             <img src="multimedia_cash/flipbook_event.png" alt="Evento Cash & Flow">
+                            <img class="photo-logo" src="assets/logo.png" alt="Cash & Flow">
                         </div>
                         <div class="flip-text">
                             <span class="flip-tag">EVENTOS</span>
@@ -132,14 +136,9 @@
 
                     <!-- PÁGINA 3: Comunidad -->
                     <div class="flip-page">
-                        <div class="flip-img"
-                            style="background: linear-gradient(135deg, #0b0c10 0%, #1a1a2e 50%, #16213e 100%); display:flex; align-items:center; justify-content:center;">
-                            <div style="text-align:center; padding: 2rem;">
-                                <div style="font-size: 5rem; margin-bottom: 1rem;">🏎️</div>
-                                <div
-                                    style="font-size: 1.2rem; color: var(--accent-color); letter-spacing: 3px; font-weight: 700;">
-                                    LA COMUNIDAD</div>
-                            </div>
+                        <div class="flip-img">
+                            <img src="multimedia_cash/cash0403.png" alt="Comunidad Cash & Flow">
+                            <img class="photo-logo" src="assets/logo.png" alt="Cash & Flow">
                         </div>
                         <div class="flip-text">
                             <span class="flip-tag">COMUNIDAD</span>
@@ -154,8 +153,8 @@
                     <!-- PÁGINA 4: Modelos exclusivos -->
                     <div class="flip-page">
                         <div class="flip-img">
-                            <img src="multimedia_cash/flipbook_garage.png" alt="Modelos exclusivos"
-                                style="filter: hue-rotate(30deg) saturate(1.3);">
+                            <img src="multimedia_cash/cash0401.png" alt="Modelos exclusivos">
+                            <img class="photo-logo" src="assets/logo.png" alt="Cash & Flow">
                         </div>
                         <div class="flip-text">
                             <span class="flip-tag">INVENTARIO</span>
@@ -196,105 +195,16 @@
             <!-- Próximos eventos -->
             <div class="events-group">
                 <h3 class="events-group-title">Próximos</h3>
-                <div class="events-grid">
-
-                    <!-- Evento próximo: Cash & Flow Night Vol. 3 -->
-                    <div class="event-card event-card--upcoming">
-                        <!-- Carrusel de fotos -->
-                        <div class="evc-carousel" data-carousel>
-                            <div class="evc-slides">
-                                <img class="evc-slide active" src="multimedia_cash/event_upcoming.png"
-                                    alt="Cash & Flow Night Vol. 3">
-                                <img class="evc-slide" src="multimedia_cash/flipbook_garage.png" alt="Preview">
-                            </div>
-                            <button class="evc-prev" aria-label="Anterior">‹</button>
-                            <button class="evc-next" aria-label="Siguiente">›</button>
-                            <div class="evc-dots">
-                                <span class="evc-dot active"></span>
-                                <span class="evc-dot"></span>
-                            </div>
-                            <span class="event-badge event-badge--upcoming">PRÓXIMO</span>
-                        </div>
-                        <!-- Info -->
-                        <div class="evc-body">
-                            <div class="evc-date">
-                                <span class="evc-day">15</span>
-                                <span class="evc-month">ABR</span>
-                            </div>
-                            <div class="evc-details">
-                                <h4>Cash &amp; Flow Night Vol. 3</h4>
-                                <p>Parque Industrial Querétaro. Entrada libre, registro requerido. Modelos en
-                                    exhibición, sorteos y mucho más.</p>
-                                <a href="#contact" class="event-cta">Registrarme →</a>
-                            </div>
-                        </div>
-                    </div>
-
+                <div class="events-grid" id="upcoming-events-grid">
+                    <!-- Eventos próximos se cargarán desde Supabase -->
                 </div>
             </div>
 
             <!-- Eventos pasados -->
             <div class="events-group">
                 <h3 class="events-group-title">Pasados</h3>
-                <div class="events-grid">
-
-                    <!-- Evento pasado: Vol. 2 -->
-                    <div class="event-card">
-                        <div class="evc-carousel" data-carousel>
-                            <div class="evc-slides">
-                                <img class="evc-slide active" src="multimedia_cash/flipbook_event.png"
-                                    alt="Cash & Flow Night Vol. 2">
-                                <img class="evc-slide" src="multimedia_cash/event_upcoming.png" alt="Foto 2">
-                            </div>
-                            <button class="evc-prev" aria-label="Anterior">‹</button>
-                            <button class="evc-next" aria-label="Siguiente">›</button>
-                            <div class="evc-dots">
-                                <span class="evc-dot active"></span>
-                                <span class="evc-dot"></span>
-                            </div>
-                            <span class="event-badge">PASADO</span>
-                        </div>
-                        <div class="evc-body">
-                            <div class="evc-date">
-                                <span class="evc-day">18</span>
-                                <span class="evc-month">ENE</span>
-                            </div>
-                            <div class="evc-details">
-                                <h4>Cash &amp; Flow Night Vol. 2</h4>
-                                <p>+40 vehículos en exhibición, 200+ asistentes y una noche que nadie olvidó.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Evento pasado: Vol. 1 -->
-                    <div class="event-card">
-                        <div class="evc-carousel" data-carousel>
-                            <div class="evc-slides">
-                                <img class="evc-slide active" src="multimedia_cash/flipbook_garage.png"
-                                    alt="Cash & Flow Night Vol. 1">
-                                <img class="evc-slide" src="multimedia_cash/flipbook_event.png" alt="Foto 2">
-                            </div>
-                            <button class="evc-prev" aria-label="Anterior">‹</button>
-                            <button class="evc-next" aria-label="Siguiente">›</button>
-                            <div class="evc-dots">
-                                <span class="evc-dot active"></span>
-                                <span class="evc-dot"></span>
-                            </div>
-                            <span class="event-badge">PASADO</span>
-                        </div>
-                        <div class="evc-body">
-                            <div class="evc-date">
-                                <span class="evc-day">05</span>
-                                <span class="evc-month">SEP</span>
-                            </div>
-                            <div class="evc-details">
-                                <h4>Cash &amp; Flow Night Vol. 1</h4>
-                                <p>El inicio de todo. Primer car meet oficial, el garage abrió sus puertas y la
-                                    comunidad respondió.</p>
-                            </div>
-                        </div>
-                    </div>
-
+                <div class="events-grid" id="past-events-grid">
+                    <!-- Eventos pasados se cargarán desde Supabase -->
                 </div>
             </div>
         </section>
@@ -313,8 +223,82 @@
 
     </main>
 
+    <!-- Supabase JS Client & Initialization -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="js/supabase.js"></script>
+
     <script src="js/db.js"></script>
     <script src="js/app.js"></script>
+
+    <!-- ── Video Scroll Cinemático con Inercia ── -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const video = document.getElementById('bgVideo');
+            if (!video) return;
+
+            video.pause();
+
+            // ── Estado ──────────────────────────────────────────────────
+            let videoCurrentTime = 0;   // tiempo suavizado que aplicamos al video
+            let velocity = 0;           // velocidad cinematográfica (segundos/frame)
+            let lastScrollY = window.scrollY;
+            let lastScrollAt = performance.now();
+            let isSeeking = false;
+
+            video.addEventListener('seeked', () => { isSeeking = false; });
+
+            // ── Detectar velocidad real del scroll ───────────────────────
+            window.addEventListener('scroll', () => {
+                const now = performance.now();
+                const deltaY = window.scrollY - lastScrollY;
+                const deltaT = Math.max(1, now - lastScrollAt); // ms
+
+                // Convertir velocidad de scroll (px/ms) → velocidad de video (s/frame)
+                // Factor: ajusta cuán "rápido" reacciona el video al scroll
+                const scrollVelocity = (deltaY / deltaT) * 0.04; // segundos de video por ms de scroll
+
+                // Inyectar la velocidad detectada (con momentum acumulativo)
+                velocity += scrollVelocity;
+
+                // Limitar velocidad máxima para que no salte frames extremos
+                const maxVel = 0.4;
+                if (velocity > maxVel) velocity = maxVel;
+                if (velocity < -maxVel) velocity = -maxVel;
+
+                lastScrollY = window.scrollY;
+                lastScrollAt = now;
+            }, { passive: true });
+
+            // ── Loop de animación ────────────────────────────────────────
+            function tick() {
+                if (video.duration) {
+                    // Avanzar el tiempo virtual del video según la inercia
+                    videoCurrentTime += velocity;
+
+                    // Fricción cinematográfica: desaceleración suave tipo cámara lenta
+                    velocity *= 0.82;
+
+                    // Evitar micro-drift cuando la inercia es despreciable
+                    if (Math.abs(velocity) < 0.0003) velocity = 0;
+
+                    // Clamp al rango válido
+                    if (videoCurrentTime < 0) videoCurrentTime = 0;
+                    if (videoCurrentTime > video.duration) videoCurrentTime = video.duration;
+
+                    // Solo hacer seek si hay diferencia notable y el video está listo
+                    if (!isSeeking && Math.abs(video.currentTime - videoCurrentTime) > 0.04) {
+                        isSeeking = true;
+                        video.currentTime = videoCurrentTime;
+                    }
+                }
+
+                requestAnimationFrame(tick);
+            }
+
+            video.addEventListener('loadedmetadata', () => requestAnimationFrame(tick));
+            if (video.readyState >= 1) requestAnimationFrame(tick);
+        });
+    </script>
 
 </body>
 

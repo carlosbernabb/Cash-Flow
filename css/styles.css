@@ -15,12 +15,15 @@
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     background-color: var(--bg-color);
     color: var(--text-color);
     font-family: var(--font-primary);
     overflow-x: hidden;
-    scroll-behavior: smooth;
     /* Removemos bg-color porque el video estará en el fondo atrás de todo */
 }
 
@@ -39,24 +42,28 @@ body {
     position: absolute;
     top: 50%;
     left: 50%;
-    /* Escala al 75% para un ángulo más abierto y ver más de la escena */
-    width: 133vw;
-    height: 133vh;
-    transform: translate(-50%, -50%) scale(0.75);
+    /* Fill screen perfectly without extreme zoom */
+    width: 100vw;
+    height: 100vh;
+    transform: translate(-50%, -50%);
     object-fit: cover;
     will-change: transform;
 }
 
 .video-overlay {
     position: absolute;
-    inset: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     /* Apenas un velo en la parte superior e inferior, lo del medio queda limpio para ver el video */
     background: linear-gradient(to bottom,
-            rgba(11, 12, 16, 0.25) 0%,
-            rgba(11, 12, 16, 0.05) 30%,
-            rgba(11, 12, 16, 0.05) 70%,
-            rgba(11, 12, 16, 0.9) 100%);
-    z-index: 1;
+            rgba(11, 12, 16, 0.5) 0%,
+            rgba(11, 12, 16, 0.1) 20%,
+            rgba(11, 12, 16, 0.1) 85%,
+            rgba(11, 12, 16, 1) 100%);
+    pointer-events: none;
+    z-index: 0;
 }
 
 /* --- Loader 3D --- */
@@ -407,6 +414,27 @@ body {
     height: 240px;
     overflow: hidden;
     position: relative;
+    background-color: #000;
+    /* Fondo negro para que el contain se vea cinemático */
+}
+
+.hover-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 2;
+    /* Sobre la imagen brillante */
+    pointer-events: none;
+    /* Para no interferir con el hover de la tarjeta en sí */
+}
+
+.car-card:hover .hover-video.is-ready {
+    opacity: 1;
 }
 
 /* Overlay de color al hacer hover sobre la imagen */
@@ -738,6 +766,83 @@ body {
 }
 
 /* ============================================
+   EXPANDABLE EVENT CARD
+   ============================================ */
+.event-card--expandable {
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.evc-expand-hint {
+    display: inline-block;
+    font-size: 0.72rem;
+    color: var(--accent-color);
+    font-weight: 600;
+    margin-top: 0.3rem;
+    transition: letter-spacing 0.3s ease;
+}
+
+.event-card--expandable:hover .evc-expand-hint {
+    letter-spacing: 0.5px;
+}
+
+/* Panel de detalles — oculto por defecto */
+.evc-expanded {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+    border-top: 0px solid rgba(102, 252, 241, 0.0);
+}
+
+.event-card--expandable.expanded .evc-expanded {
+    max-height: 320px;
+    border-top: 1px solid rgba(102, 252, 241, 0.1);
+}
+
+.evc-expanded-inner {
+    padding: 1rem 1.1rem 1.1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.evc-detail-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    color: #9999b8;
+    line-height: 1.4;
+}
+
+.evc-detail-row strong {
+    color: #dde;
+}
+
+.evc-detail-icon {
+    flex-shrink: 0;
+    font-size: 0.85rem;
+    margin-top: 0.05rem;
+}
+
+/* Rotate hint arrow when expanded */
+.event-card--expandable.expanded .evc-expand-hint::after {
+    content: ' ↑';
+}
+
+.event-card--expandable .evc-expand-hint::after {
+    content: ' ↓';
+}
+
+.evc-expand-hint {
+    display: inline-block;
+    font-size: 0.72rem;
+    color: var(--accent-color);
+    font-weight: 600;
+    margin-top: 0.3rem;
+}
+
+/* ============================================
    FLIPBOOK
    ============================================ */
 .flipbook-wrapper {
@@ -755,13 +860,13 @@ body {
         0 0 0 1px rgba(255, 255, 255, 0.04),
         0 30px 60px rgba(0, 0, 0, 0.6),
         inset 0 1px 0 rgba(255, 255, 255, 0.06);
-    min-height: 380px;
+    height: 340px;
 }
 
 .flip-page {
     display: none;
     grid-template-columns: 1fr 1fr;
-    min-height: 380px;
+    height: 340px;
     animation: flipFadeIn 0.6s ease;
 }
 
@@ -784,6 +889,7 @@ body {
 .flip-img {
     overflow: hidden;
     border-radius: 16px 0 0 16px;
+    position: relative;
 }
 
 .flip-img img {
@@ -929,6 +1035,20 @@ body {
     position: relative;
     height: 200px;
     overflow: hidden;
+}
+
+/* Variante: muestra la imagen completa sin recortar (para flyers) */
+.evc-carousel--full {
+    height: auto;
+    background: #060608;
+}
+
+.evc-carousel--full .evc-slide {
+    position: relative;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    max-height: 360px;
 }
 
 .evc-slides {

@@ -8,53 +8,70 @@
     <link rel="stylesheet" href="css/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
-        /* Estilos específicos para el Panel de Admin */
         body {
             padding-top: 100px;
         }
 
+        /* ─── Layout principal ─────────────────────────────── */
         .admin-container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 2rem;
             display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 3rem;
+            grid-template-columns: 360px 1fr;
+            gap: 2.5rem;
+            align-items: start;
         }
 
+        /* ─── Formulario agregar ───────────────────────────── */
         .admin-form-card {
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
-            border-radius: 12px;
+            border-radius: 16px;
             padding: 2rem;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
+            position: sticky;
+            top: 110px;
         }
 
         .admin-form-card h2 {
             margin-bottom: 1.5rem;
             color: var(--accent-color);
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .form-group {
-            margin-bottom: 1.2rem;
+            margin-bottom: 1rem;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
+            margin-bottom: 0.4rem;
+            font-size: 0.82rem;
             color: #b0b0b0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .form-group input,
         .form-group textarea {
             width: 100%;
-            padding: 0.8rem;
-            border-radius: 6px;
+            padding: 0.75rem;
+            border-radius: 8px;
             border: 1px solid var(--glass-border);
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(0, 0, 0, 0.35);
             color: white;
             font-family: var(--font-primary);
+            font-size: 0.9rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            box-sizing: border-box;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 70px;
         }
 
         .form-group input:focus,
@@ -64,61 +81,337 @@
             box-shadow: 0 0 10px rgba(102, 252, 241, 0.2);
         }
 
+        #add-preview {
+            width: 100%;
+            height: 130px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-top: 0.5rem;
+            display: none;
+            border: 1px solid var(--glass-border);
+        }
+
         .submit-btn {
             width: 100%;
-            padding: 1rem;
+            padding: 0.9rem;
             background: var(--accent-color);
             color: var(--bg-color);
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             font-weight: 800;
+            font-size: 0.9rem;
             text-transform: uppercase;
+            letter-spacing: 1px;
             cursor: pointer;
             transition: all 0.3s ease;
+            margin-top: 0.5rem;
         }
 
         .submit-btn:hover {
-            box-shadow: 0 0 20px var(--accent-glow);
+            box-shadow: 0 0 22px var(--accent-glow);
             transform: translateY(-2px);
         }
 
-        /* Admin Listado */
+        /* ─── Panel derecho (listado) ──────────────────────── */
         .admin-list {
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
-            border-radius: 12px;
+            border-radius: 16px;
             padding: 2rem;
         }
 
-        .admin-car-item {
+        .admin-list-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1rem;
-            border-bottom: 1px solid var(--glass-border);
+            margin-bottom: 1.5rem;
         }
 
-        .admin-car-item:last-child {
-            border-bottom: none;
+        .admin-list-header h2 {
+            color: var(--accent-color);
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .admin-car-count {
+            font-size: 0.85rem;
+            color: #b0b0b0;
+            background: rgba(102, 252, 241, 0.08);
+            border: 1px solid var(--glass-border);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+        }
+
+        /* ─── Grid de tarjetas ─────────────────────────────── */
+        #admin-cars-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .admin-card {
+            background: rgba(10, 10, 15, 0.7);
+            border: 1px solid var(--glass-border);
+            border-radius: 14px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .admin-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .admin-card-img {
+            width: 100%;
+            height: 170px;
+            background-size: cover;
+            background-position: center;
+            background-color: #111;
+            position: relative;
+        }
+
+        .admin-card-img::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.85));
+        }
+
+        .admin-card-body {
+            padding: 1rem 1.1rem 1.1rem;
+        }
+
+        .admin-card-brand {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        .admin-card-model {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: white;
+            margin: 0.15rem 0 0.1rem;
+            line-height: 1.2;
+        }
+
+        .admin-card-year {
+            font-size: 0.78rem;
+            color: #888;
+        }
+
+        .admin-card-price {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #e0e0e0;
+            margin: 0.5rem 0 0.4rem;
+        }
+
+        .admin-card-specs {
+            font-size: 0.72rem;
+            color: #888;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        /* ─── Botones de acción ────────────────────────────── */
+        .admin-card-actions {
+            display: flex;
+            gap: 0.6rem;
+        }
+
+        .btn-edit,
+        .btn-delete {
+            flex: 1;
+            padding: 0.55rem 0.5rem;
+            border: none;
+            border-radius: 7px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.25s;
+            font-family: var(--font-primary);
+        }
+
+        .btn-edit {
+            background: rgba(102, 252, 241, 0.12);
+            color: var(--accent-color);
+            border: 1px solid var(--accent-color);
+        }
+
+        .btn-edit:hover {
+            background: var(--accent-color);
+            color: #0a0a0f;
+            box-shadow: 0 0 14px var(--accent-glow);
         }
 
         .btn-delete {
-            background: #ff4757;
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: 0.3s;
+            background: rgba(255, 71, 87, 0.12);
+            color: #ff4757;
+            border: 1px solid #ff4757;
         }
 
         .btn-delete:hover {
-            background: #ff6b81;
-            box-shadow: 0 0 10px rgba(255, 71, 87, 0.5);
+            background: #ff4757;
+            color: white;
+            box-shadow: 0 0 14px rgba(255, 71, 87, 0.4);
         }
 
-        @media (max-width: 900px) {
+        /* ─── Modal de edición ─────────────────────────────── */
+        .edit-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(6px);
+            z-index: 9000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .edit-modal-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .edit-modal {
+            background: #12121a;
+            border: 1px solid var(--glass-border);
+            border-radius: 18px;
+            padding: 2rem;
+            width: 90%;
+            max-width: 640px;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: scale(0.92);
+            transition: transform 0.3s;
+            position: relative;
+        }
+
+        .edit-modal-overlay.active .edit-modal {
+            transform: scale(1);
+        }
+
+        .edit-modal h2 {
+            color: var(--accent-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .edit-modal .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.9rem 1.2rem;
+        }
+
+        .edit-modal .form-full {
+            grid-column: 1 / -1;
+        }
+
+        #edit-preview {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 1px solid var(--glass-border);
+            margin-bottom: 0.5rem;
+            background: #1a1a2e;
+        }
+
+        #modal-close {
+            position: absolute;
+            top: 1.2rem;
+            right: 1.2rem;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--glass-border);
+            color: white;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+        }
+
+        #modal-close:hover {
+            background: #ff4757;
+            border-color: #ff4757;
+        }
+
+        .modal-save-btn {
+            width: 100%;
+            margin-top: 1.2rem;
+            padding: 0.9rem;
+            background: var(--accent-color);
+            color: #0a0a0f;
+            border: none;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .modal-save-btn:hover {
+            box-shadow: 0 0 22px var(--accent-glow);
+            transform: translateY(-2px);
+        }
+
+        /* ─── Toast ────────────────────────────────────────── */
+        .admin-toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: #1a1a2e;
+            border: 1px solid var(--accent-color);
+            color: white;
+            padding: 0.8rem 1.6rem;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            z-index: 99999;
+            opacity: 0;
+            transition: all 0.35s ease;
+            white-space: nowrap;
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        .admin-toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* ─── Responsive ───────────────────────────────────── */
+        @media (max-width: 960px) {
             .admin-container {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-form-card {
+                position: static;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .edit-modal .form-grid {
                 grid-template-columns: 1fr;
             }
         }
@@ -127,17 +420,17 @@
 
 <body>
     <nav class="navbar glassmorphism">
-        <div class="nav-logo">CASH & FLOW <span style="font-size: 0.9rem; color: var(--accent-color);">ADMIN</span>
-        </div>
+        <div class="nav-logo">CASH & FLOW <span
+                style="font-size:0.85rem; color:var(--accent-color); margin-left:6px;">ADMIN</span></div>
         <ul class="nav-links">
             <li><a href="index.html">← Volver al Sitio</a></li>
         </ul>
     </nav>
 
     <div class="admin-container">
-        <!-- Columna Izquierda: Formulario -->
+        <!-- ── Columna izquierda: Formulario agregar ── -->
         <div class="admin-form-card">
-            <h2>Agregar Nuevo Deportivo</h2>
+            <h2>➕ Agregar Vehículo</h2>
             <form id="add-car-form">
                 <div class="form-group">
                     <label>Marca</label>
@@ -152,42 +445,141 @@
                     <input type="number" id="car-year" required placeholder="Ej. 2024">
                 </div>
                 <div class="form-group">
-                    <label>Precio (MXN / USD)</label>
+                    <label>Precio</label>
                     <input type="text" id="car-price" required placeholder="Ej. $4,500,000 MXN">
                 </div>
                 <div class="form-group">
                     <label>Motor</label>
-                    <input type="text" id="car-engine" required placeholder="Ej. 4.0L Flat-6">
+                    <input type="text" id="car-engine" placeholder="Ej. 4.0L Flat-6">
                 </div>
                 <div class="form-group">
                     <label>Caballos de Fuerza (HP)</label>
-                    <input type="text" id="car-hp" required placeholder="Ej. 500 HP">
+                    <input type="text" id="car-hp" placeholder="Ej. 500 HP">
                 </div>
                 <div class="form-group">
                     <label>Aceleración 0-100</label>
-                    <input type="text" id="car-accel" required placeholder="Ej. 3.2s">
+                    <input type="text" id="car-accel" placeholder="Ej. 3.2s">
                 </div>
                 <div class="form-group">
-                    <label>URL de Imagen</label>
-                    <input type="url" id="car-image" required placeholder="https://...">
+                    <label>Kilometraje</label>
+                    <input type="text" id="car-mileage" placeholder="Ej. 1,200 km">
                 </div>
-                <button type="submit" class="submit-btn">Guardar Vehículo</button>
+                <div class="form-group">
+                    <label>Dueños</label>
+                    <input type="number" id="car-owners" value="1" min="1">
+                </div>
+                <div class="form-group">
+                    <label>Imágenes (Hasta 5)</label>
+                    <input type="file" id="car-image-files" accept="image/*" multiple>
+                    <div id="add-preview-container" style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Video Hover (Opcional, 1 archivo)</label>
+                    <input type="file" id="car-preview-video-file" accept="video/*">
+                </div>
+                <div class="form-group" style="display:flex; align-items:center; gap:0.5rem;">
+                    <input type="checkbox" id="car-featured" style="width:auto; margin:0;" checked>
+                    <label for="car-featured" style="margin:0; text-transform:none;">Destacar en la página de inicio
+                        (Solo 4)</label>
+                </div>
+                <div class="form-group" style="display:none;">
+                    <label>Descripción</label>
+                    <textarea id="car-desc" placeholder="Descripción del vehículo..."></textarea>
+                </div>
+                <button type="submit" class="submit-btn" id="submit-add-btn">Guardar Vehículo</button>
             </form>
         </div>
 
-        <!-- Columna Derecha: Listado -->
+        <!-- ── Columna derecha: Galería admin ── -->
         <div class="admin-list">
-            <h2>Inventario Actual</h2>
-            <br>
+            <div class="admin-list-header">
+                <h2>🚗 Inventario Actual</h2>
+                <span class="admin-car-count" id="car-count">Cargando...</span>
+            </div>
             <div id="admin-cars-list">
-                <!-- Se llenará con JS -->
+                <!-- Tarjetas generadas por JS -->
             </div>
         </div>
     </div>
 
+    <!-- ── Modal de Edición ── -->
+    <div class="edit-modal-overlay" id="edit-modal">
+        <div class="edit-modal">
+            <button id="modal-close" title="Cerrar">✕</button>
+            <h2>✏️ Editar Vehículo</h2>
+            <div class="form-full" style="margin-bottom:1rem;">
+                <img id="edit-preview" alt="Preview del vehículo">
+            </div>
+            <form id="edit-car-form">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Marca</label>
+                        <input type="text" id="edit-brand" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Modelo</label>
+                        <input type="text" id="edit-model" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Año</label>
+                        <input type="number" id="edit-year" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Precio</label>
+                        <input type="text" id="edit-price" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Motor</label>
+                        <input type="text" id="edit-engine">
+                    </div>
+                    <div class="form-group">
+                        <label>HP</label>
+                        <input type="text" id="edit-hp">
+                    </div>
+                    <div class="form-group">
+                        <label>Aceleración 0-100</label>
+                        <input type="text" id="edit-accel">
+                    </div>
+                    <div class="form-group">
+                        <label>Kilometraje</label>
+                        <input type="text" id="edit-mileage">
+                    </div>
+                    <div class="form-group">
+                        <label>Dueños</label>
+                        <input type="number" id="edit-owners" min="1">
+                    </div>
+                    <div class="form-group">
+                        <label>Imágenes (Reemplazar todo, Hasta 5)</label>
+                        <input type="file" id="edit-image-files" accept="image/*" multiple>
+                        <small style="color:#888; display:block; margin-top:4px;">Si no seleccionas nada, se conservan
+                            las actuales.</small>
+                    </div>
+                    <div class="form-group">
+                        <label>Video Hover (Reemplazar, 1 archivo)</label>
+                        <input type="file" id="edit-preview-video-file" accept="video/*">
+                        <small style="color:#888; display:block; margin-top:4px;">Dejar vacío para conservar el
+                            actual.</small>
+                    </div>
+                    <div class="form-group form-full" style="display:flex; align-items:center; gap:0.5rem;">
+                        <input type="checkbox" id="edit-featured" style="width:auto; margin:0;">
+                        <label for="edit-featured" style="margin:0; text-transform:none;">Destacar en la página de
+                            inicio</label>
+                    </div>
+                </div>
+                <button type="submit" class="modal-save-btn" id="submit-edit-btn">💾 Guardar Cambios</button>
+            </form>
+        </div>
+    </div>
+
     <!-- Scripts -->
-    <script src="js/db.js"></script>
+    <!-- Supabase JS Client & Initialization -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="js/supabase.js"></script>
     <script src="js/admin.js"></script>
+    <script>
+        // JS will update the count dynamically in admin.js
+    </script>
 </body>
 
 </html>
