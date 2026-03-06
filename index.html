@@ -230,75 +230,7 @@
     <script src="js/db.js"></script>
     <script src="js/app.js"></script>
 
-    <!-- ── Video Scroll Cinemático con Inercia ── -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const video = document.getElementById('bgVideo');
-            if (!video) return;
 
-            video.pause();
-
-            // ── Estado ──────────────────────────────────────────────────
-            let videoCurrentTime = 0;   // tiempo suavizado que aplicamos al video
-            let velocity = 0;           // velocidad cinematográfica (segundos/frame)
-            let lastScrollY = window.scrollY;
-            let lastScrollAt = performance.now();
-            let isSeeking = false;
-
-            video.addEventListener('seeked', () => { isSeeking = false; });
-
-            // ── Detectar velocidad real del scroll ───────────────────────
-            window.addEventListener('scroll', () => {
-                const now = performance.now();
-                const deltaY = window.scrollY - lastScrollY;
-                const deltaT = Math.max(1, now - lastScrollAt); // ms
-
-                // Convertir velocidad de scroll (px/ms) → velocidad de video (s/frame)
-                // Factor: ajusta cuán "rápido" reacciona el video al scroll
-                const scrollVelocity = (deltaY / deltaT) * 0.04; // segundos de video por ms de scroll
-
-                // Inyectar la velocidad detectada (con momentum acumulativo)
-                velocity += scrollVelocity;
-
-                // Limitar velocidad máxima para que no salte frames extremos
-                const maxVel = 0.4;
-                if (velocity > maxVel) velocity = maxVel;
-                if (velocity < -maxVel) velocity = -maxVel;
-
-                lastScrollY = window.scrollY;
-                lastScrollAt = now;
-            }, { passive: true });
-
-            // ── Loop de animación ────────────────────────────────────────
-            function tick() {
-                if (video.duration) {
-                    // Avanzar el tiempo virtual del video según la inercia
-                    videoCurrentTime += velocity;
-
-                    // Fricción cinematográfica: desaceleración suave tipo cámara lenta
-                    velocity *= 0.82;
-
-                    // Evitar micro-drift cuando la inercia es despreciable
-                    if (Math.abs(velocity) < 0.0003) velocity = 0;
-
-                    // Clamp al rango válido
-                    if (videoCurrentTime < 0) videoCurrentTime = 0;
-                    if (videoCurrentTime > video.duration) videoCurrentTime = video.duration;
-
-                    // Solo hacer seek si hay diferencia notable y el video está listo
-                    if (!isSeeking && Math.abs(video.currentTime - videoCurrentTime) > 0.04) {
-                        isSeeking = true;
-                        video.currentTime = videoCurrentTime;
-                    }
-                }
-
-                requestAnimationFrame(tick);
-            }
-
-            video.addEventListener('loadedmetadata', () => requestAnimationFrame(tick));
-            if (video.readyState >= 1) requestAnimationFrame(tick);
-        });
-    </script>
 
 </body>
 

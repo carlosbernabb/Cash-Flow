@@ -181,219 +181,74 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // =====================================================
-
-    // VIDEO SCRUBBING — adelante playbackRate, atrás seek suave
-
-    // VIDEO_OFFSET: salta los primeros 2 segundos del video
-
+    // VIDEO SCRUB — Direct scroll position mapping, no lerp
     // =====================================================
-
-    const video = document.getElementById('bgVideo'); // FIXED id from 'scrollVideo' to 'bgVideo'
-
+    const video = document.getElementById('bgVideo');
     const VIDEO_OFFSET = 2;
 
     let targetTime = VIDEO_OFFSET;
-
-    let rafId = null;
-
-    let backTick = 0;
-
-    let goingBack = false;
-
-
+    let isSeeking = false;
+    let scrubRunning = false;
 
     function initScrub() {
+        // Guard: only start one scrub loop
+        if (scrubRunning) return;
+        scrubRunning = true;
 
         video.currentTime = VIDEO_OFFSET;
-
         video.pause();
-
-
+        video.addEventListener('seeked', () => { isSeeking = false; });
 
         window.addEventListener('scroll', () => {
-
-            // Navbar
-
+            // Navbar styling
             const navbar = document.querySelector('.navbar');
-
             if (window.scrollY > 50) {
-
                 navbar.style.background = 'rgba(11, 12, 16, 0.92)';
-
                 navbar.style.boxShadow = '0 10px 30px rgba(0,0,0,0.6)';
-
             } else {
-
                 navbar.style.background = 'var(--glass-bg)';
-
                 navbar.style.boxShadow = 'none';
-
             }
 
-
-
-            // Target del video: mapea scroll desde VIDEO_OFFSET hasta el final
-
+            // Map scroll position DIRECTLY to video time — no velocity, no lerp
             if (video.duration) {
-
-                const max = Math.max(1, document.body.scrollHeight - window.innerHeight);
-
-                const fraction = Math.min(Math.max(window.scrollY / max, 0), 1);
-
+                const maxScroll = Math.max(1, document.body.scrollHeight - window.innerHeight);
+                const fraction = Math.min(Math.max((window.scrollY / maxScroll) * 3.0, 0), 1);
                 targetTime = VIDEO_OFFSET + (video.duration - VIDEO_OFFSET) * fraction;
-
             }
-
         }, { passive: true });
 
-
-
-        function scrubLoop() {
-
-            if (video.duration) {
-
+        function tick() {
+            if (video.duration && !isSeeking) {
                 const diff = targetTime - video.currentTime;
-
                 const absDiff = Math.abs(diff);
 
-
-
-                if (absDiff > 0.04) {
-
-
-
+                if (absDiff > 0.05) {
                     if (diff > 0) {
-
-                        // ── ADELANTE: playbackRate nativo, siempre suave ──
-
-                        if (goingBack) {
-
-                            // Salir del estado de retroceso — restaurar video
-
-                            video.style.transition = 'opacity 0.4s ease, filter 0.4s ease';
-
-                            video.style.opacity = '1';
-
-                            video.style.filter = 'none';
-
-                            goingBack = false;
-
-                        }
-
-                        video.playbackRate = Math.min(diff * 5, 8);
-
+                        // Going FORWARD: play() with hardware acceleration
+                        video.playbackRate = Math.min(absDiff * 3, 4);
                         if (video.paused) video.play().catch(() => { });
-
-                        backTick = 0;
-
-
-
                     } else {
-
-                        // ── ATRÁS: seek throttleado + transición visual suave ──
-
-                        if (!video.paused) {
-
-                            video.pause();
-
-                            video.playbackRate = 1;
-
-                        }
-
-
-
-                        // Primer frame del retroceso: activar efecto visual
-
-                        if (!goingBack) {
-
-                            video.style.transition = 'opacity 0.15s ease, filter 0.15s ease';
-
-                            goingBack = true;
-
-                        }
-
-                        // Blur y dim sutiles — ocultan el stutter del codec H.264
-
-                        video.style.opacity = '0.88';
-
-                        video.style.filter = 'blur(0.6px) brightness(0.92)';
-
-
-
-                        // Seek cada 3 frames de rAF = 20fps efectivos al decoder
-
-                        backTick = (backTick + 1) % 3;
-
-                        if (backTick === 0) {
-
-                            const next = Math.max(VIDEO_OFFSET, video.currentTime + diff * 0.30);
-
-                            video.currentTime = next;
-
-                        }
-
+                        // Going BACKWARD: seek to nearest keyframe
+                        if (!video.paused) { video.pause(); video.playbackRate = 1; }
+                        isSeeking = true;
+                        if (video.fastSeek) video.fastSeek(targetTime);
+                        else video.currentTime = targetTime;
                     }
-
-
-
                 } else {
-
-                    // ── LLEGAMOS AL FRAME CORRECTO ──
-
-                    if (goingBack) {
-
-                        video.style.transition = 'opacity 0.4s ease, filter 0.4s ease';
-
-                        video.style.opacity = '1';
-
-                        video.style.filter = 'none';
-
-                        goingBack = false;
-
-                    }
-
-                    if (!video.paused) {
-
-                        video.pause();
-
-                        video.playbackRate = 1;
-
-                    }
-
-                    const snap = Math.max(VIDEO_OFFSET, targetTime);
-
-                    if (Math.abs(video.currentTime - snap) > 0.01) {
-
-                        video.currentTime = snap;
-
-                    }
-
+                    // At target — stop cleanly
+                    if (!video.paused) { video.pause(); video.playbackRate = 1; }
                 }
-
             }
-
-
-
-            rafId = requestAnimationFrame(scrubLoop);
-
+            requestAnimationFrame(tick);
         }
 
-
-
-        if (rafId) cancelAnimationFrame(rafId);
-
-        scrubLoop();
-
+        requestAnimationFrame(tick);
     }
 
-
-
     if (video) {
-
         if (video.readyState >= 1) initScrub();
-
         else video.addEventListener('loadedmetadata', initScrub, { once: true });
-
     }
 
 
@@ -527,8 +382,14 @@ async function loadSiteMedia() {
             const videoElem = document.getElementById('bgVideo');
             if (videoElem) {
                 const source = videoElem.querySelector('source');
-                source.src = bgVideoRecord.media_url;
-                videoElem.load(); // Reload the video with the new source
+                // Only swap src if it's actually different (avoid resetting during scrubbing)
+                if (source && source.src !== bgVideoRecord.media_url) {
+                    source.src = bgVideoRecord.media_url;
+                    videoElem.load();
+                    // Re-connect the scrub system once the new video loads
+                    scrubRunning = false;
+                    videoElem.addEventListener('loadedmetadata', initScrub, { once: true });
+                }
             }
         }
     } catch (err) {
