@@ -35,7 +35,9 @@
 
         <section class="inventory-page">
             <header class="inv-header">
-                <img src="coche_neon.png" alt="Coche Neon" class="inv-hero-img">
+                <div class="inv-hero-container">
+                    <video id="hero-video" src="coche_neon_anim.mp4" class="inv-hero-img" muted playsinline></video>
+                </div>
                 <h1 class="inv-title">INVENTARIO</h1>
                 <h2 class="inv-subtitle">El coche de tus sueños al alcance de la punta de tus dedos</h2>
             </header>
@@ -134,6 +136,17 @@
 
     <!-- Dynamic Fetching -->
     <script src="../js/inventario.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const heroVideo = document.getElementById('hero-video');
+            if (heroVideo) {
+                setTimeout(() => {
+                    heroVideo.play();
+                }, 500);
+            }
+        });
+    </script>
 </body>
 
 </html>

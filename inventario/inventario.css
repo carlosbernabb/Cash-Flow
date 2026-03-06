@@ -16,10 +16,22 @@
     opacity: 0;
 }
 
+.inv-hero-container {
+    width: 33.33%;
+    min-width: 320px;
+    margin: 0 auto;
+    border-radius: 50%;
+    overflow: hidden;
+    border: none;
+    background: transparent;
+    display: block;
+}
+
 .inv-hero-img {
-    height: 360px;
-    object-fit: contain;
-    filter: drop-shadow(0 0 15px var(--accent-color));
+    width: 100%;
+    height: auto;
+    display: block;
+    border: none;
 }
 
 .inv-title {
