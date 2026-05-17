@@ -4,394 +4,589 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cash & Flow | Admin Panel</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <title>Cash & Flow | Admin</title>
+    <link rel="stylesheet" href="css/styles.css?v=crm-flow-1">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         body {
-            padding-top: 100px;
+            padding-top: 96px;
+            background:
+                radial-gradient(circle at 18% 0%, rgba(212, 175, 55, 0.13), transparent 32rem),
+                radial-gradient(circle at 85% 12%, rgba(192, 57, 43, 0.10), transparent 30rem),
+                var(--bg-color);
         }
 
-        /* ─── Layout principal ─────────────────────────────── */
-        .admin-container {
-            max-width: 1400px;
-            margin: 0 auto;
+        .admin-lock {
+            position: fixed;
+            inset: 0;
+            z-index: 9000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            background: rgba(0, 0, 0, 0.82);
+            backdrop-filter: blur(10px);
+        }
+
+        .admin-lock.active {
+            display: flex;
+        }
+
+        .login-box {
+            width: min(420px, 100%);
+            border: 1px solid rgba(212, 175, 55, 0.28);
+            background: rgba(14, 14, 16, 0.94);
+            border-radius: 8px;
             padding: 2rem;
-            display: grid;
-            grid-template-columns: 360px 1fr;
-            gap: 2.5rem;
-            align-items: start;
+            box-shadow: 0 22px 60px rgba(0, 0, 0, 0.55);
         }
 
-        /* ─── Formulario agregar ───────────────────────────── */
-        .admin-form-card {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            padding: 2rem;
-            backdrop-filter: blur(12px);
-            position: sticky;
-            top: 110px;
+        .login-logo {
+            width: 92px;
+            display: block;
+            margin: 0 auto 1.2rem;
+            filter: drop-shadow(0 0 16px var(--accent-glow));
         }
 
-        .admin-form-card h2 {
-            margin-bottom: 1.5rem;
+        .login-box h1 {
             color: var(--accent-color);
             font-size: 1.2rem;
+            text-align: center;
+            margin-bottom: 1.4rem;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
-            letter-spacing: 1px;
         }
 
-        .form-group {
+        .admin-shell {
+            width: min(1500px, calc(100% - 2rem));
+            margin: 0 auto 4rem;
+        }
+
+        .admin-topbar {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            align-items: flex-end;
+            margin-bottom: 1.5rem;
+        }
+
+        .admin-kicker {
+            color: var(--accent-color);
+            font-size: 0.75rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .admin-title {
+            margin-top: 0.35rem;
+            font-size: clamp(1.7rem, 4vw, 3rem);
+            color: #fff;
+            line-height: 1;
+        }
+
+        .admin-actions {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            gap: 0.7rem;
+        }
+
+        .admin-button,
+        .admin-icon-button,
+        .admin-tab {
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.055);
+            color: #fff;
+            border-radius: 8px;
+            font-family: var(--font-primary);
+            font-weight: 800;
+            cursor: pointer;
+            transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .admin-button {
+            padding: 0.8rem 1rem;
+        }
+
+        .admin-icon-button {
+            width: 38px;
+            height: 38px;
+            display: inline-grid;
+            place-items: center;
+            font-size: 1rem;
+        }
+
+        .admin-button.primary {
+            background: var(--accent-red);
+            border-color: var(--accent-red);
+            color: #fff;
+        }
+
+        .admin-button.gold {
+            background: var(--accent-color);
+            border-color: var(--accent-color);
+            color: #090909;
+        }
+
+        .admin-button:hover,
+        .admin-icon-button:hover,
+        .admin-tab:hover {
+            transform: translateY(-1px);
+            border-color: rgba(212, 175, 55, 0.55);
+            box-shadow: 0 0 18px rgba(212, 175, 55, 0.16);
+        }
+
+        .admin-tabs {
+            display: inline-flex;
+            gap: 0.35rem;
+            padding: 0.35rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 10px;
             margin-bottom: 1rem;
         }
 
-        .form-group label {
-            display: block;
-            margin-bottom: 0.4rem;
-            font-size: 0.82rem;
-            color: #b0b0b0;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+        .admin-tab {
+            padding: 0.7rem 1rem;
+            color: #b9b9b9;
         }
 
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 0.75rem;
+        .admin-tab.active {
+            background: rgba(212, 175, 55, 0.16);
+            border-color: rgba(212, 175, 55, 0.44);
+            color: #fff;
+        }
+
+        .admin-panel {
+            display: none;
+        }
+
+        .admin-panel.active {
+            display: block;
+        }
+
+        .admin-toolbar {
+            display: grid;
+            grid-template-columns: minmax(260px, 1fr) 190px 160px 160px auto;
+            gap: 0.75rem;
+            align-items: center;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(16, 16, 20, 0.78);
             border-radius: 8px;
-            border: 1px solid var(--glass-border);
-            background: rgba(0, 0, 0, 0.35);
-            color: white;
+        }
+
+        .admin-toolbar.events {
+            grid-template-columns: minmax(260px, 1fr) 190px auto;
+        }
+
+        .admin-input,
+        .admin-select,
+        .admin-textarea {
+            width: 100%;
+            padding: 0.78rem 0.85rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.11);
+            background: rgba(0, 0, 0, 0.32);
+            color: #fff;
             font-family: var(--font-primary);
-            font-size: 0.9rem;
-            transition: border-color 0.2s, box-shadow 0.2s;
+            font-size: 0.92rem;
             box-sizing: border-box;
         }
 
-        .form-group textarea {
+        .admin-textarea {
+            min-height: 110px;
             resize: vertical;
-            min-height: 70px;
         }
 
-        .form-group input:focus,
-        .form-group textarea:focus {
+        .admin-input:focus,
+        .admin-select:focus,
+        .admin-textarea:focus {
             outline: none;
             border-color: var(--accent-color);
-            box-shadow: 0 0 10px rgba(102, 252, 241, 0.2);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.13);
         }
 
-        #add-preview {
-            width: 100%;
-            height: 130px;
-            object-fit: cover;
-            border-radius: 8px;
-            margin-top: 0.5rem;
-            display: none;
-            border: 1px solid var(--glass-border);
+        .admin-select option {
+            background: #101014;
+            color: #fff;
         }
 
-        .submit-btn {
-            width: 100%;
-            padding: 0.9rem;
-            background: var(--accent-color);
-            color: var(--bg-color);
-            border: none;
-            border-radius: 8px;
-            font-weight: 800;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 0.5rem;
+        .admin-count {
+            color: #bcbcbc;
+            font-size: 0.86rem;
+            text-align: right;
         }
 
-        .submit-btn:hover {
-            box-shadow: 0 0 22px var(--accent-glow);
-            transform: translateY(-2px);
-        }
-
-        /* ─── Panel derecho (listado) ──────────────────────── */
-        .admin-list {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            padding: 2rem;
-        }
-
-        .admin-list-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
-
-        .admin-list-header h2 {
-            color: var(--accent-color);
-            font-size: 1.2rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .admin-car-count {
-            font-size: 0.85rem;
-            color: #b0b0b0;
-            background: rgba(102, 252, 241, 0.08);
-            border: 1px solid var(--glass-border);
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-        }
-
-        /* ─── Grid de tarjetas ─────────────────────────────── */
-        #admin-cars-list {
+        .admin-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+
+        .admin-event-section {
+            margin-top: 1.35rem;
+        }
+
+        .admin-event-section[hidden] {
+            display: none;
+        }
+
+        .admin-event-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: 0.8rem;
+            padding-bottom: 0.65rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .admin-event-head h2 {
+            color: #fff;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1.4px;
+        }
+
+        .admin-event-head span {
+            color: var(--accent-color);
+            font-weight: 800;
+            font-size: 0.8rem;
         }
 
         .admin-card {
-            background: rgba(10, 10, 15, 0.7);
-            border: 1px solid var(--glass-border);
-            border-radius: 14px;
             overflow: hidden;
-            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            background: rgba(14, 14, 18, 0.78);
+            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
         }
 
         .admin-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+            transform: translateY(-3px);
+            border-color: rgba(212, 175, 55, 0.35);
+            box-shadow: 0 20px 48px rgba(0, 0, 0, 0.34);
         }
 
-        .admin-card-img {
-            width: 100%;
-            height: 170px;
-            background-size: cover;
-            background-position: center;
-            background-color: #111;
+        .admin-card-media {
+            height: 190px;
             position: relative;
+            background: #050505;
+            overflow: hidden;
         }
 
-        .admin-card-img::after {
-            content: '';
+        .admin-card-media img,
+        .admin-card-media video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .admin-card-media video {
             position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 60px;
-            background: linear-gradient(transparent, rgba(0, 0, 0, 0.85));
+            inset: 0;
+            opacity: 0;
+            transition: opacity 0.25s ease;
+            background: #000;
+        }
+
+        .admin-card:hover .admin-card-media video.is-ready {
+            opacity: 1;
+        }
+
+        .admin-badge {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            padding: 0.28rem 0.55rem;
+            border-radius: 999px;
+            background: rgba(212, 175, 55, 0.92);
+            color: #080808;
+            font-size: 0.68rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .admin-badge-type {
+            position: absolute;
+            top: 0.75rem;
+            left: 0.75rem;
+            padding: 0.28rem 0.55rem;
+            border-radius: 999px;
+            font-size: 0.65rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .admin-badge-quote {
+            background: rgba(192, 57, 43, 0.9);
+            color: #fff;
+        }
+
+        .admin-badge-general {
+            background: rgba(52, 152, 219, 0.9);
+            color: #fff;
         }
 
         .admin-card-body {
-            padding: 1rem 1.1rem 1.1rem;
+            padding: 1rem;
         }
 
         .admin-card-brand {
-            font-size: 0.72rem;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
             color: var(--accent-color);
-            font-weight: 600;
-        }
-
-        .admin-card-model {
-            font-size: 1.15rem;
+            font-size: 0.72rem;
             font-weight: 800;
-            color: white;
-            margin: 0.15rem 0 0.1rem;
-            line-height: 1.2;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
         }
 
-        .admin-card-year {
-            font-size: 0.78rem;
-            color: #888;
+        .admin-card-title {
+            color: #fff;
+            font-size: 1.08rem;
+            line-height: 1.2;
+            margin: 0.2rem 0 0.25rem;
         }
 
         .admin-card-price {
-            font-size: 1rem;
-            font-weight: 700;
-            color: #e0e0e0;
-            margin: 0.5rem 0 0.4rem;
+            color: #f2f2f2;
+            font-weight: 800;
+            margin-bottom: 0.55rem;
         }
 
-        .admin-card-specs {
+        .admin-card-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.35rem;
+            margin-bottom: 0.85rem;
+        }
+
+        .admin-pill {
+            padding: 0.25rem 0.5rem;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.06);
+            color: #cfcfcf;
             font-size: 0.72rem;
-            color: #888;
-            margin-bottom: 1rem;
-            line-height: 1.6;
         }
 
-        /* ─── Botones de acción ────────────────────────────── */
         .admin-card-actions {
             display: flex;
-            gap: 0.6rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
         }
 
-        .btn-edit,
-        .btn-delete {
+        .admin-card-actions button {
             flex: 1;
-            padding: 0.55rem 0.5rem;
-            border: none;
+            padding: 0.62rem 0.5rem;
             border-radius: 7px;
-            font-weight: 700;
-            font-size: 0.8rem;
-            cursor: pointer;
-            transition: all 0.25s;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.055);
+            color: #fff;
             font-family: var(--font-primary);
+            font-weight: 800;
+            cursor: pointer;
         }
 
-        .btn-edit {
-            background: rgba(102, 252, 241, 0.12);
+        .admin-card-actions .danger {
+            border-color: rgba(192, 57, 43, 0.55);
+            color: #ffafa7;
+        }
+
+        .admin-lead-message {
+            color: #b8b8c4;
+            font-size: 0.86rem;
+            line-height: 1.45;
+            margin: 0 0 0.9rem;
+        }
+
+        .lead-workspace {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(260px, 0.75fr);
+            gap: 1rem;
+        }
+
+        .lead-thread {
+            min-height: 260px;
+            max-height: 440px;
+            overflow: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            padding: 0.8rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.18);
+        }
+
+        .lead-message {
+            max-width: 88%;
+            padding: 0.75rem;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.06);
+            color: #e8e8e8;
+            line-height: 1.45;
+        }
+
+        .lead-message.admin {
+            align-self: flex-end;
+            background: rgba(212, 175, 55, 0.14);
+            border: 1px solid rgba(212, 175, 55, 0.22);
+        }
+
+        .lead-message-meta {
+            display: block;
+            margin-bottom: 0.3rem;
             color: var(--accent-color);
-            border: 1px solid var(--accent-color);
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
         }
 
-        .btn-edit:hover {
-            background: var(--accent-color);
-            color: #0a0a0f;
-            box-shadow: 0 0 14px var(--accent-glow);
+        .lead-side-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
         }
 
-        .btn-delete {
-            background: rgba(255, 71, 87, 0.12);
-            color: #ff4757;
-            border: 1px solid #ff4757;
+        .lead-side-panel .admin-button {
+            width: 100%;
         }
 
-        .btn-delete:hover {
-            background: #ff4757;
-            color: white;
-            box-shadow: 0 0 14px rgba(255, 71, 87, 0.4);
-        }
-
-        /* ─── Modal de edición ─────────────────────────────── */
-        .edit-modal-overlay {
+        .admin-modal {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(6px);
-            z-index: 9000;
-            display: flex;
+            z-index: 9500;
+            display: none;
             align-items: center;
             justify-content: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s;
+            padding: 1.2rem;
+            background: rgba(0, 0, 0, 0.78);
+            backdrop-filter: blur(8px);
         }
 
-        .edit-modal-overlay.active {
-            opacity: 1;
-            pointer-events: all;
+        .admin-modal.active {
+            display: flex;
         }
 
-        .edit-modal {
-            background: #12121a;
-            border: 1px solid var(--glass-border);
-            border-radius: 18px;
-            padding: 2rem;
-            width: 90%;
-            max-width: 640px;
-            max-height: 90vh;
-            overflow-y: auto;
-            transform: scale(0.92);
-            transition: transform 0.3s;
-            position: relative;
+        .admin-dialog {
+            width: min(1080px, 100%);
+            max-height: 92vh;
+            overflow: auto;
+            border: 1px solid rgba(212, 175, 55, 0.25);
+            border-radius: 8px;
+            background: #101014;
+            box-shadow: 0 28px 80px rgba(0, 0, 0, 0.65);
         }
 
-        .edit-modal-overlay.active .edit-modal {
-            transform: scale(1);
+        .admin-dialog-head {
+            position: sticky;
+            top: 0;
+            z-index: 2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.2rem;
+            background: rgba(16, 16, 20, 0.96);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         }
 
-        .edit-modal h2 {
+        .admin-dialog-head h2 {
+            color: #fff;
+            font-size: 1.1rem;
+        }
+
+        .admin-form {
+            padding: 1.2rem;
+        }
+
+        .form-section {
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .form-section:first-child {
+            padding-top: 0;
+        }
+
+        .form-section-title {
             color: var(--accent-color);
-            margin-bottom: 1.5rem;
-            font-size: 1.2rem;
+            margin-bottom: 0.85rem;
+            font-size: 0.82rem;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
-            letter-spacing: 1px;
         }
 
-        .edit-modal .form-grid {
+        .form-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0.9rem 1.2rem;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 0.8rem;
         }
 
-        .edit-modal .form-full {
+        .form-grid.two {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .form-full {
             grid-column: 1 / -1;
         }
 
-        #edit-preview {
-            width: 100%;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 10px;
-            border: 1px solid var(--glass-border);
-            margin-bottom: 0.5rem;
-            background: #1a1a2e;
-        }
-
-        #modal-close {
-            position: absolute;
-            top: 1.2rem;
-            right: 1.2rem;
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid var(--glass-border);
-            color: white;
-            border-radius: 50%;
-            width: 36px;
-            height: 36px;
-            font-size: 1.1rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: 0.2s;
-        }
-
-        #modal-close:hover {
-            background: #ff4757;
-            border-color: #ff4757;
-        }
-
-        .modal-save-btn {
-            width: 100%;
-            margin-top: 1.2rem;
-            padding: 0.9rem;
-            background: var(--accent-color);
-            color: #0a0a0f;
-            border: none;
-            border-radius: 8px;
+        .form-field label {
+            display: block;
+            color: #b8b8b8;
+            font-size: 0.78rem;
             font-weight: 800;
-            font-size: 0.9rem;
+            letter-spacing: 0.5px;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            transition: all 0.3s;
+            margin-bottom: 0.36rem;
         }
 
-        .modal-save-btn:hover {
-            box-shadow: 0 0 22px var(--accent-glow);
-            transform: translateY(-2px);
+        .form-hint {
+            display: block;
+            color: #858585;
+            margin-top: 0.35rem;
+            font-size: 0.76rem;
         }
 
-        /* ─── Toast ────────────────────────────────────────── */
+        .preview-strip {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.55rem;
+            min-height: 74px;
+        }
+
+        .preview-strip img {
+            width: 92px;
+            height: 72px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .form-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.7rem;
+            padding-top: 1rem;
+        }
+
         .admin-toast {
             position: fixed;
-            bottom: 2rem;
             left: 50%;
+            bottom: 1.3rem;
+            z-index: 9999;
             transform: translateX(-50%) translateY(20px);
-            background: #1a1a2e;
-            border: 1px solid var(--accent-color);
-            color: white;
-            padding: 0.8rem 1.6rem;
-            border-radius: 30px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            z-index: 99999;
             opacity: 0;
-            transition: all 0.35s ease;
-            white-space: nowrap;
-            box-shadow: 0 0 20px var(--accent-glow);
+            padding: 0.8rem 1rem;
+            border-radius: 999px;
+            border: 1px solid rgba(212, 175, 55, 0.5);
+            background: #151515;
+            color: #fff;
+            box-shadow: 0 0 22px rgba(212, 175, 55, 0.2);
+            transition: opacity 0.25s ease, transform 0.25s ease;
         }
 
         .admin-toast.show {
@@ -399,19 +594,87 @@
             transform: translateX(-50%) translateY(0);
         }
 
-        /* ─── Responsive ───────────────────────────────────── */
-        @media (max-width: 960px) {
-            .admin-container {
-                grid-template-columns: 1fr;
+        .empty-state {
+            grid-column: 1 / -1;
+            color: #b8b8b8;
+            padding: 2.5rem;
+            text-align: center;
+            border: 1px dashed rgba(255, 255, 255, 0.13);
+            border-radius: 8px;
+        }
+
+        @media (max-width: 980px) {
+            .admin-topbar {
+                align-items: stretch;
+                flex-direction: column;
             }
 
-            .admin-form-card {
-                position: static;
+            .admin-actions {
+                justify-content: flex-start;
+            }
+
+            .admin-toolbar,
+            .admin-toolbar.events,
+            .form-grid,
+            .form-grid.two {
+                grid-template-columns: 1fr 1fr;
             }
         }
 
-        @media (max-width: 600px) {
-            .edit-modal .form-grid {
+        @media (max-width: 640px) {
+            body {
+                padding-top: 80px;
+            }
+
+            .admin-shell {
+                width: min(100% - 1rem, 1500px);
+            }
+
+            .admin-title {
+                font-size: 2rem;
+            }
+
+            .admin-actions {
+                display: grid;
+                grid-template-columns: 1fr;
+            }
+
+            .admin-button {
+                width: 100%;
+            }
+
+            .admin-toolbar,
+            .admin-toolbar.events,
+            .form-grid,
+            .form-grid.two {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-tabs {
+                width: 100%;
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .admin-count {
+                text-align: left;
+            }
+
+            .admin-event-head {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 0.25rem;
+            }
+
+            .admin-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-footer {
+                flex-direction: column-reverse;
+            }
+
+            .lead-workspace {
                 grid-template-columns: 1fr;
             }
         }
@@ -423,163 +686,428 @@
         <div class="nav-logo">CASH & FLOW <span
                 style="font-size:0.85rem; color:var(--accent-color); margin-left:6px;">ADMIN</span></div>
         <ul class="nav-links">
-            <li><a href="index.html">← Volver al Sitio</a></li>
+            <li><a href="index.html">Volver al sitio</a></li>
         </ul>
     </nav>
 
-    <div class="admin-container">
-        <!-- ── Columna izquierda: Formulario agregar ── -->
-        <div class="admin-form-card">
-            <h2>➕ Agregar Vehículo</h2>
-            <form id="add-car-form">
-                <div class="form-group">
-                    <label>Marca</label>
-                    <input type="text" id="car-brand" required placeholder="Ej. Porsche">
-                </div>
-                <div class="form-group">
-                    <label>Modelo</label>
-                    <input type="text" id="car-model" required placeholder="Ej. 911 GT3">
-                </div>
-                <div class="form-group">
-                    <label>Año</label>
-                    <input type="number" id="car-year" required placeholder="Ej. 2024">
-                </div>
-                <div class="form-group">
-                    <label>Precio</label>
-                    <input type="text" id="car-price" required placeholder="Ej. $4,500,000 MXN">
-                </div>
-                <div class="form-group">
-                    <label>Motor</label>
-                    <input type="text" id="car-engine" placeholder="Ej. 4.0L Flat-6">
-                </div>
-                <div class="form-group">
-                    <label>Caballos de Fuerza (HP)</label>
-                    <input type="text" id="car-hp" placeholder="Ej. 500 HP">
-                </div>
-                <div class="form-group">
-                    <label>Aceleración 0-100</label>
-                    <input type="text" id="car-accel" placeholder="Ej. 3.2s">
-                </div>
-                <div class="form-group">
-                    <label>Kilometraje</label>
-                    <input type="text" id="car-mileage" placeholder="Ej. 1,200 km">
-                </div>
-                <div class="form-group">
-                    <label>Dueños</label>
-                    <input type="number" id="car-owners" value="1" min="1">
-                </div>
-                <div class="form-group">
-                    <label>Imágenes (Hasta 5)</label>
-                    <input type="file" id="car-image-files" accept="image/*" multiple>
-                    <div id="add-preview-container" style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Video Hover (Opcional, 1 archivo)</label>
-                    <input type="file" id="car-preview-video-file" accept="video/*">
-                </div>
-                <div class="form-group" style="display:flex; align-items:center; gap:0.5rem;">
-                    <input type="checkbox" id="car-featured" style="width:auto; margin:0;" checked>
-                    <label for="car-featured" style="margin:0; text-transform:none;">Destacar en la página de inicio
-                        (Solo 4)</label>
-                </div>
-                <div class="form-group" style="display:none;">
-                    <label>Descripción</label>
-                    <textarea id="car-desc" placeholder="Descripción del vehículo..."></textarea>
-                </div>
-                <button type="submit" class="submit-btn" id="submit-add-btn">Guardar Vehículo</button>
-            </form>
+    <section class="admin-lock active" id="admin-lock">
+        <form class="login-box" id="admin-login-form">
+            <img src="assets/logo.png" alt="Cash & Flow" class="login-logo">
+            <h1>Acceso administrador</h1>
+            <div class="form-field" style="margin-bottom:0.8rem;">
+                <label for="admin-user">Correo</label>
+                <input class="admin-input" id="admin-user" type="email" autocomplete="username" required
+                    placeholder="admin@cashflow.mx">
+            </div>
+            <div class="form-field" style="margin-bottom:1rem;">
+                <label for="admin-pass">Contrasena</label>
+                <input class="admin-input" id="admin-pass" type="password" autocomplete="current-password" required>
+            </div>
+            <button class="admin-button gold" type="submit" style="width:100%;">Entrar</button>
+        </form>
+    </section>
+
+    <main class="admin-shell" id="admin-shell" hidden>
+        <header class="admin-topbar">
+            <div>
+                <div class="admin-kicker">Panel de control</div>
+                <h1 class="admin-title">Inventario y eventos</h1>
+            </div>
+            <div class="admin-actions">
+                <button class="admin-button primary" id="add-car-btn" type="button">Agregar carro</button>
+                <button class="admin-button" id="add-event-btn" type="button">Agregar evento</button>
+                <button class="admin-button" id="add-gallery-btn" type="button">Agregar galeria</button>
+                <button class="admin-button" id="logout-btn" type="button">Salir</button>
+            </div>
+        </header>
+
+        <div class="admin-tabs" role="tablist">
+            <button class="admin-tab active" type="button" data-tab="cars">Vehiculos</button>
+            <button class="admin-tab" type="button" data-tab="events">Eventos</button>
+            <button class="admin-tab" type="button" data-tab="gallery">Galeria</button>
+            <button class="admin-tab" type="button" data-tab="leads">Interesados</button>
         </div>
 
-        <!-- ── Columna derecha: Galería admin ── -->
-        <div class="admin-list">
-            <div class="admin-list-header">
-                <h2>🚗 Inventario Actual</h2>
-                <span class="admin-car-count" id="car-count">Cargando...</span>
+        <section class="admin-panel active" id="cars-panel">
+            <div class="admin-toolbar">
+                <input class="admin-input" id="admin-car-search" placeholder="Buscar por marca, modelo, color, motor...">
+                <select class="admin-select" id="admin-brand-filter">
+                    <option value="">Todas las marcas</option>
+                </select>
+                <select class="admin-select" id="admin-year-filter">
+                    <option value="">Todos los anos</option>
+                </select>
+                <select class="admin-select" id="admin-feature-filter">
+                    <option value="">Todos</option>
+                    <option value="featured">Destacados</option>
+                    <option value="regular">No destacados</option>
+                </select>
+                <span class="admin-count" id="car-count">Cargando...</span>
             </div>
-            <div id="admin-cars-list">
-                <!-- Tarjetas generadas por JS -->
+            <div class="admin-grid" id="admin-cars-list"></div>
+        </section>
+
+        <section class="admin-panel" id="events-panel">
+            <div class="admin-toolbar events">
+                <input class="admin-input" id="admin-event-search" placeholder="Buscar evento, lugar o descripcion...">
+                <select class="admin-select" id="admin-event-filter">
+                    <option value="">Todos los eventos</option>
+                    <option value="upcoming">Proximos</option>
+                    <option value="past">Pasados</option>
+                </select>
+                <span class="admin-count" id="event-count">Cargando...</span>
+            </div>
+            <div class="admin-event-section" id="admin-upcoming-events-section">
+                <div class="admin-event-head">
+                    <h2>Eventos proximos</h2>
+                    <span id="upcoming-event-count">0 eventos</span>
+                </div>
+                <div class="admin-grid" id="admin-upcoming-events-list"></div>
+            </div>
+            <div class="admin-event-section" id="admin-past-events-section">
+                <div class="admin-event-head">
+                    <h2>Eventos pasados</h2>
+                    <span id="past-event-count">0 eventos</span>
+                </div>
+                <div class="admin-grid" id="admin-past-events-list"></div>
+            </div>
+        </section>
+
+        <section class="admin-panel" id="gallery-panel">
+            <div class="admin-toolbar events">
+                <input class="admin-input" id="admin-gallery-search" placeholder="Buscar foto, etiqueta o descripcion...">
+                <select class="admin-select" id="admin-gallery-filter">
+                    <option value="">Toda la galeria</option>
+                    <option value="with-image">Con imagen</option>
+                </select>
+                <span class="admin-count" id="gallery-count">Cargando...</span>
+            </div>
+            <div class="admin-grid" id="admin-gallery-list"></div>
+        </section>
+
+        <section class="admin-panel" id="leads-panel">
+            <div class="admin-toolbar events">
+                <input class="admin-input" id="admin-lead-search" placeholder="Buscar nombre, telefono, carro, consulta...">
+                <select class="admin-select" id="admin-lead-type-filter">
+                    <option value="">Todos los tipos</option>
+                    <option value="vehicle_quote">Cotizaciones</option>
+                    <option value="general">Consultas generales</option>
+                </select>
+                <select class="admin-select" id="admin-lead-filter">
+                    <option value="">Todos los estados</option>
+                    <option value="nuevo">Nuevos</option>
+                    <option value="contactado">Contactados</option>
+                    <option value="agendado">Agendados</option>
+                    <option value="cerrado">Cerrados</option>
+                </select>
+                <span class="admin-count" id="lead-count">Cargando...</span>
+            </div>
+            <div class="admin-grid" id="admin-leads-list"></div>
+        </section>
+    </main>
+
+    <div class="admin-modal" id="car-modal" aria-hidden="true">
+        <div class="admin-dialog">
+            <div class="admin-dialog-head">
+                <h2 id="car-modal-title">Agregar carro</h2>
+                <button class="admin-icon-button" type="button" data-close-modal="car-modal" aria-label="Cerrar">x</button>
+            </div>
+            <form class="admin-form" id="car-form">
+                <div class="form-section">
+                    <div class="form-section-title">Datos principales</div>
+                    <div class="form-grid">
+                        <div class="form-field">
+                            <label for="car-brand">Marca</label>
+                            <input class="admin-input" id="car-brand" required placeholder="BMW">
+                        </div>
+                        <div class="form-field">
+                            <label for="car-model">Modelo / version</label>
+                            <input class="admin-input" id="car-model" required placeholder="118ia M Sport AT">
+                        </div>
+                        <div class="form-field">
+                            <label for="car-year">Ano</label>
+                            <input class="admin-input" id="car-year" type="number" required placeholder="2020">
+                        </div>
+                        <div class="form-field">
+                            <label for="car-price">Precio</label>
+                            <input class="admin-input" id="car-price" required placeholder="$420,000.00">
+                        </div>
+                        <div class="form-field">
+                            <label for="car-old-price">Precio anterior</label>
+                            <input class="admin-input" id="car-old-price" placeholder="$450,000.00">
+                        </div>
+                        <div class="form-field">
+                            <label for="car-color">Color</label>
+                            <input class="admin-input" id="car-color" placeholder="Negro">
+                        </div>
+                        <div class="form-field">
+                            <label for="car-mileage">Kilometraje</label>
+                            <input class="admin-input" id="car-mileage" placeholder="91,485 km">
+                        </div>
+                        <div class="form-field">
+                            <label for="car-featured">Inicio</label>
+                            <select class="admin-select" id="car-featured">
+                                <option value="true">Destacado</option>
+                                <option value="false">No destacado</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <div class="form-section-title">Mecanica y unidad</div>
+                    <div class="form-grid">
+                        <div class="form-field">
+                            <label for="car-engine">Motor</label>
+                            <input class="admin-input" id="car-engine" placeholder="V10, 2500cc, 4.0L...">
+                        </div>
+                        <div class="form-field">
+                            <label for="car-hp">HP</label>
+                            <input class="admin-input" id="car-hp" placeholder="503 HP">
+                        </div>
+                        <div class="form-field">
+                            <label for="car-accel">0-100</label>
+                            <input class="admin-input" id="car-accel" placeholder="3.8s">
+                        </div>
+                        <div class="form-field">
+                            <label for="car-transmission">Transmision</label>
+                            <input class="admin-input" id="car-transmission" placeholder="Automatica">
+                        </div>
+                        <div class="form-field">
+                            <label for="car-body-type">Carroceria</label>
+                            <input class="admin-input" id="car-body-type" placeholder="Coupe, SUV, Moto...">
+                        </div>
+                        <div class="form-field">
+                            <label for="car-doors">Puertas</label>
+                            <input class="admin-input" id="car-doors" type="number" min="0" placeholder="2">
+                        </div>
+                        <div class="form-field">
+                            <label for="car-owners">Due&ntilde;os</label>
+                            <input class="admin-input" id="car-owners" type="number" min="0" placeholder="1">
+                        </div>
+                        <div class="form-field">
+                            <label for="car-passengers">Pasajeros</label>
+                            <input class="admin-input" id="car-passengers" type="number" min="0" placeholder="2">
+                            <span class="form-hint">Si la columna no existe, se guarda en detalles.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <div class="form-section-title">Detalles opcionales</div>
+                    <div class="form-grid">
+                        <div class="form-field">
+                            <label for="car-invoice">Factura</label>
+                            <input class="admin-input" id="car-invoice" placeholder="Original">
+                        </div>
+                        <div class="form-field">
+                            <label for="car-keys-count">Llaves</label>
+                            <input class="admin-input" id="car-keys-count" type="number" min="0" placeholder="2">
+                        </div>
+                        <div class="form-field">
+                            <label for="car-plates-status">Placas / pagos</label>
+                            <input class="admin-input" id="car-plates-status" placeholder="Todo pagado">
+                        </div>
+                        <div class="form-field form-full">
+                            <label for="car-description">Detalles y especificaciones</label>
+                            <textarea class="admin-textarea" id="car-description"
+                                placeholder="Agrega aqui lo especial de esta unidad: equipo, condiciones, extras, notas de agencia..."></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <div class="form-section-title">Fotos y video</div>
+                    <div class="form-grid two">
+                        <div class="form-field">
+                            <label for="car-image-files">Fotos</label>
+                            <input class="admin-input" id="car-image-files" type="file" accept="image/*" multiple>
+                            <span class="form-hint">Hasta 8 fotos. Si editas y no subes nuevas, se conservan las actuales.</span>
+                        </div>
+                        <div class="form-field">
+                            <label for="car-preview-video-file">Video hover</label>
+                            <input class="admin-input" id="car-preview-video-file" type="file" accept="video/*">
+                            <span class="form-hint">Opcional.</span>
+                        </div>
+                        <div class="form-field form-full">
+                            <label>Preview</label>
+                            <div class="preview-strip" id="car-preview-strip"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-footer">
+                    <button class="admin-button" type="button" data-close-modal="car-modal">Cancelar</button>
+                    <button class="admin-button gold" id="save-car-btn" type="submit">Guardar carro</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="admin-modal" id="event-modal" aria-hidden="true">
+        <div class="admin-dialog">
+            <div class="admin-dialog-head">
+                <h2 id="event-modal-title">Agregar evento</h2>
+                <button class="admin-icon-button" type="button" data-close-modal="event-modal" aria-label="Cerrar">x</button>
+            </div>
+            <form class="admin-form" id="event-form">
+                <div class="form-section">
+                    <div class="form-section-title">Evento</div>
+                    <div class="form-grid">
+                        <div class="form-field form-full">
+                            <label for="event-title">Titulo</label>
+                            <input class="admin-input" id="event-title" required placeholder="Roll'n'Rodz Rueda de Prensa">
+                        </div>
+                        <div class="form-field">
+                            <label for="event-date">Fecha texto</label>
+                            <input class="admin-input" id="event-date" required placeholder="4 de Abril, 2026">
+                        </div>
+                        <div class="form-field">
+                            <label for="event-datetime">Fecha y hora real</label>
+                            <input class="admin-input" id="event-datetime" type="datetime-local">
+                            <span class="form-hint">Activa el contador en eventos proximos.</span>
+                        </div>
+                        <div class="form-field">
+                            <label for="event-day">Dia</label>
+                            <input class="admin-input" id="event-day" required placeholder="04">
+                        </div>
+                        <div class="form-field">
+                            <label for="event-month">Mes</label>
+                            <input class="admin-input" id="event-month" required placeholder="ABR">
+                        </div>
+                        <div class="form-field">
+                            <label for="event-status">Estado</label>
+                            <select class="admin-select" id="event-status">
+                                <option value="true">Proximo</option>
+                                <option value="false">Pasado</option>
+                            </select>
+                        </div>
+                        <div class="form-field form-full">
+                            <label for="event-location">Lugar</label>
+                            <input class="admin-input" id="event-location" required placeholder="Queretaro">
+                        </div>
+                        <div class="form-field form-full">
+                            <label for="event-description">Descripcion</label>
+                            <textarea class="admin-textarea" id="event-description"></textarea>
+                        </div>
+                        <div class="form-field form-full">
+                            <label for="event-cta-link">Link CTA</label>
+                            <input class="admin-input" id="event-cta-link" placeholder="#contact">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-section">
+                    <div class="form-section-title">Portada</div>
+                    <div class="form-grid two">
+                        <div class="form-field">
+                            <label for="event-image-file">Imagen</label>
+                            <input class="admin-input" id="event-image-file" type="file" accept="image/*">
+                            <span class="form-hint">Si editas y no subes nueva, se conserva la actual.</span>
+                        </div>
+                        <div class="form-field">
+                            <label>Preview</label>
+                            <div class="preview-strip" id="event-preview-strip"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-footer">
+                    <button class="admin-button" type="button" data-close-modal="event-modal">Cancelar</button>
+                    <button class="admin-button gold" id="save-event-btn" type="submit">Guardar evento</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="admin-modal" id="gallery-modal" aria-hidden="true">
+        <div class="admin-dialog">
+            <div class="admin-dialog-head">
+                <h2 id="gallery-modal-title">Agregar foto</h2>
+                <button class="admin-icon-button" type="button" data-close-modal="gallery-modal" aria-label="Cerrar">x</button>
+            </div>
+            <form class="admin-form" id="gallery-form">
+                <div class="form-section">
+                    <div class="form-section-title">Galeria antes de eventos</div>
+                    <div class="form-grid">
+                        <div class="form-field">
+                            <label for="gallery-tag">Etiqueta</label>
+                            <input class="admin-input" id="gallery-tag" placeholder="COMUNIDAD">
+                        </div>
+                        <div class="form-field form-full">
+                            <label for="gallery-title">Titulo</label>
+                            <input class="admin-input" id="gallery-title" required placeholder="Noches que no se olvidan">
+                        </div>
+                        <div class="form-field form-full">
+                            <label for="gallery-description">Descripcion</label>
+                            <textarea class="admin-textarea" id="gallery-description"
+                                placeholder="Cuenta que esta pasando en esta foto o que quiere comunicar Cash & Flow."></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-section">
+                    <div class="form-section-title">Foto</div>
+                    <div class="form-grid two">
+                        <div class="form-field">
+                            <label for="gallery-image-file">Imagen</label>
+                            <input class="admin-input" id="gallery-image-file" type="file" accept="image/*">
+                            <span class="form-hint">Si editas y no subes nueva, se conserva la actual.</span>
+                        </div>
+                        <div class="form-field">
+                            <label>Preview</label>
+                            <div class="preview-strip" id="gallery-preview-strip"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-footer">
+                    <button class="admin-button" type="button" data-close-modal="gallery-modal">Cancelar</button>
+                    <button class="admin-button gold" id="save-gallery-btn" type="submit">Guardar foto</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="admin-modal" id="lead-modal-admin" aria-hidden="true">
+        <div class="admin-dialog">
+            <div class="admin-dialog-head">
+                <h2 id="lead-admin-title">Solicitud</h2>
+                <button class="admin-icon-button" type="button" data-close-modal="lead-modal-admin" aria-label="Cerrar">x</button>
+            </div>
+            <div class="admin-form">
+                <div class="form-section">
+                    <div class="form-section-title">Cliente y coche</div>
+                    <div class="admin-card-meta" id="lead-admin-summary"></div>
+                </div>
+                <div class="lead-workspace">
+                    <div>
+                        <div class="form-section-title">Conversacion</div>
+                        <div class="lead-thread" id="lead-thread"></div>
+                        <form id="lead-message-form" class="admin-form" style="padding: 0; margin-top: 0.8rem;">
+                            <textarea class="admin-textarea" id="lead-admin-message" placeholder="Escribe una respuesta o nota para esta solicitud..."></textarea>
+                            <div class="form-footer">
+                                <button class="admin-button gold" type="submit">Guardar mensaje</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="lead-side-panel">
+                        <div class="form-section-title">Agenda</div>
+                        <label class="form-field">
+                            <span style="display:block;color:#b8b8b8;font-size:0.78rem;font-weight:800;margin-bottom:0.36rem;">Fecha y hora</span>
+                            <input class="admin-input" id="lead-appointment-at" type="datetime-local">
+                        </label>
+                        <label class="form-field">
+                            <span style="display:block;color:#b8b8b8;font-size:0.78rem;font-weight:800;margin-bottom:0.36rem;">Notas de cita</span>
+                            <textarea class="admin-textarea" id="lead-appointment-notes" placeholder="Ej. Confirmar llegada, unidad lista, asesor asignado..."></textarea>
+                        </label>
+                        <button class="admin-button gold" id="save-appointment-btn" type="button">Agendar visita</button>
+                        <button class="admin-button" id="mark-contacted-btn" type="button">Marcar contactado</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- ── Modal de Edición ── -->
-    <div class="edit-modal-overlay" id="edit-modal">
-        <div class="edit-modal">
-            <button id="modal-close" title="Cerrar">✕</button>
-            <h2>✏️ Editar Vehículo</h2>
-            <div class="form-full" style="margin-bottom:1rem;">
-                <img id="edit-preview" alt="Preview del vehículo">
-            </div>
-            <form id="edit-car-form">
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label>Marca</label>
-                        <input type="text" id="edit-brand" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Modelo</label>
-                        <input type="text" id="edit-model" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Año</label>
-                        <input type="number" id="edit-year" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Precio</label>
-                        <input type="text" id="edit-price" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Motor</label>
-                        <input type="text" id="edit-engine">
-                    </div>
-                    <div class="form-group">
-                        <label>HP</label>
-                        <input type="text" id="edit-hp">
-                    </div>
-                    <div class="form-group">
-                        <label>Aceleración 0-100</label>
-                        <input type="text" id="edit-accel">
-                    </div>
-                    <div class="form-group">
-                        <label>Kilometraje</label>
-                        <input type="text" id="edit-mileage">
-                    </div>
-                    <div class="form-group">
-                        <label>Dueños</label>
-                        <input type="number" id="edit-owners" min="1">
-                    </div>
-                    <div class="form-group">
-                        <label>Imágenes (Reemplazar todo, Hasta 5)</label>
-                        <input type="file" id="edit-image-files" accept="image/*" multiple>
-                        <small style="color:#888; display:block; margin-top:4px;">Si no seleccionas nada, se conservan
-                            las actuales.</small>
-                    </div>
-                    <div class="form-group">
-                        <label>Video Hover (Reemplazar, 1 archivo)</label>
-                        <input type="file" id="edit-preview-video-file" accept="video/*">
-                        <small style="color:#888; display:block; margin-top:4px;">Dejar vacío para conservar el
-                            actual.</small>
-                    </div>
-                    <div class="form-group form-full" style="display:flex; align-items:center; gap:0.5rem;">
-                        <input type="checkbox" id="edit-featured" style="width:auto; margin:0;">
-                        <label for="edit-featured" style="margin:0; text-transform:none;">Destacar en la página de
-                            inicio</label>
-                    </div>
-                </div>
-                <button type="submit" class="modal-save-btn" id="submit-edit-btn">💾 Guardar Cambios</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Scripts -->
-    <!-- Supabase JS Client & Initialization -->
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <script src="js/supabase.js"></script>
-    <script src="js/admin.js"></script>
-    <script>
-        // JS will update the count dynamically in admin.js
-    </script>
+    <script src="js/admin.js?v=delete-lead-1"></script>
 </body>
 
 </html>

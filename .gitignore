@@ -7,3 +7,6 @@
 # Archivos del sistema
 .DS_Store
 Thumbs.db
+
+# Dependencias locales
+node_modules/

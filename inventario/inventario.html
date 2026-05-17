@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cash & Flow | Inventario Detallado</title>
     <!-- Use the existing CSS for general styles -->
-    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/styles.css?v=crm-flow-1">
     <!-- Our new specific styles for inventario -->
-    <link rel="stylesheet" href="inventario.css">
+    <link rel="stylesheet" href="inventario.css?v=crm-flow-1">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
 </head>
 
@@ -25,11 +25,11 @@
             <div class="nav-logo"><a href="../index.html" style="color:inherit; text-decoration:none;">CASH & FLOW</a>
             </div>
             <ul class="nav-links">
+                <li><a href="../index.html">Inicio</a></li>
                 <li><a href="../index.html#blog">Nosotros</a></li>
                 <li><a href="inventario.html" class="active">Inventario</a></li>
                 <li><a href="../index.html#events">Eventos</a></li>
                 <li><a href="../index.html#contact">Contacto</a></li>
-                <li><a href="../admin.html" class="admin-btn">Admin</a></li>
             </ul>
         </nav>
 
@@ -41,7 +41,8 @@
             </header>
 
             <div class="inv-search-container">
-                <input type="text" placeholder="Busca por modelo, marca..." class="inv-search-bar">
+                <input type="text" id="inv-search" placeholder="Busca por modelo, marca, color o motor..."
+                    class="inv-search-bar">
             </div>
 
             <div class="inv-layout">
@@ -49,62 +50,53 @@
                 <aside class="inv-sidebar">
                     <h3>Filtros</h3>
 
-                    <div class="filter-group">
-                        <label>Precio</label>
-                        <select>
-                            <option>Todos</option>
-                            <option>Hasta $1,000,000</option>
-                            <option>$1,000,001 - $3,000,000</option>
-                            <option>Más de $3,000,000</option>
-                        </select>
+                    <div class="filter-group budget-filter">
+                        <label>Presupuesto</label>
+                        <div class="budget-range">
+                            <input id="filter-budget-min" type="number" min="0" step="50000" placeholder="Minimo">
+                            <input id="filter-budget-max" type="number" min="0" step="50000" placeholder="Maximo">
+                        </div>
+                        <input id="filter-budget-slider" type="range" min="0" max="0" value="0" step="50000">
+                        <div class="budget-hint" id="budget-hint">Cargando precios...</div>
                     </div>
 
                     <div class="filter-group">
                         <label>Marca</label>
-                        <select>
-                            <option>Todas</option>
-                            <option>Porsche</option>
-                            <option>Mercedes-Benz</option>
-                            <option>Audi</option>
-                            <option>BMW</option>
-                            <option>Lamborghini</option>
+                        <select id="filter-brand">
+                            <option value="">Todas</option>
                         </select>
                     </div>
 
                     <div class="filter-group">
                         <label>Modelo</label>
-                        <select>
-                            <option>Todos</option>
+                        <select id="filter-model">
+                            <option value="">Todos</option>
                         </select>
                     </div>
 
                     <div class="filter-group">
                         <label>Año</label>
-                        <select>
-                            <option>Todos</option>
-                            <option>2024</option>
-                            <option>2023</option>
-                            <option>2022</option>
-                            <option>2021 o anterior</option>
+                        <select id="filter-year">
+                            <option value="">Todos</option>
                         </select>
                     </div>
 
                     <div class="filter-group">
                         <label>Color Exterior</label>
-                        <select>
-                            <option>Todos</option>
-                            <option>Negro</option>
-                            <option>Blanco</option>
-                            <option>Gris</option>
-                            <option>Plata</option>
-                            <option>Rojo</option>
-                            <option>Azul</option>
+                        <select id="filter-color">
+                            <option value="">Todos</option>
                         </select>
                     </div>
+
+                    <button class="filter-reset" id="clear-filters" type="button">Ver todo el inventario</button>
                 </aside>
 
                 <!-- Grid de resultados -->
                 <section class="inv-results">
+                    <div class="inv-results-head">
+                        <span id="inv-results-count">Cargando inventario...</span>
+                        <span id="inv-active-filters"></span>
+                    </div>
                     <div class="cars-grid inv-cars-grid">
 
                         <!-- Inventory will be loaded dynamically by js/inventario.js -->
@@ -114,14 +106,57 @@
             </div>
         </section>
 
+        <div class="lead-modal" id="lead-modal" aria-hidden="true">
+            <div class="lead-dialog">
+                <div class="lead-dialog-head">
+                    <div>
+                        <span>Cotizacion y detalles</span>
+                        <h2 id="lead-car-title">Unidad seleccionada</h2>
+                    </div>
+                    <button type="button" id="lead-modal-close" aria-label="Cerrar">x</button>
+                </div>
+                <form id="lead-form" class="lead-form">
+                    <input type="hidden" id="lead-car-id">
+                    <div class="lead-car-summary" id="lead-car-summary"></div>
+                    <div class="lead-car-details" id="lead-car-details"></div>
+                    <div class="lead-grid">
+                        <label>
+                            Nombre
+                            <input id="lead-name" required placeholder="Tu nombre">
+                        </label>
+                        <label>
+                            Telefono / WhatsApp
+                            <input id="lead-phone" required placeholder="442 000 0000">
+                        </label>
+                        <label>
+                            Correo
+                            <input id="lead-email" type="email" placeholder="correo@ejemplo.com">
+                        </label>
+                        <label>
+                            Presupuesto aproximado
+                            <input id="lead-budget" type="number" min="0" step="50000" placeholder="Ej. 2500000">
+                        </label>
+                        <label class="lead-full">
+                            Mensaje para el asesor
+                            <textarea id="lead-message" placeholder="Quiero cotizar esta unidad y conocer disponibilidad para verla."></textarea>
+                        </label>
+                    </div>
+                    <div class="lead-actions">
+                        <button type="button" id="lead-cancel">Cancelar</button>
+                        <button type="submit">Cotizar esta unidad</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
         <!-- FOOTER / CONTACTO -->
         <footer id="contact" class="site-footer">
             <div class="footer-logo">CASH &amp; FLOW</div>
             <p class="footer-tagline">Querétaro, México — El garage de los que saben.</p>
             <div class="footer-links">
+                <a href="../index.html">Inicio</a>
                 <a href="inventario.html">Inventario</a>
                 <a href="../index.html#blog">Blog</a>
-                <a href="../admin.html">Admin</a>
             </div>
             <p class="footer-copy">© 2024 Cash &amp; Flow. Todos los derechos reservados.</p>
         </footer>
@@ -133,7 +168,7 @@
     <script src="../js/supabase.js"></script>
 
     <!-- Dynamic Fetching -->
-    <script src="../js/inventario.js"></script>
+    <script src="../js/inventario.js?v=crm-flow-1"></script>
 </body>
 
 </html>

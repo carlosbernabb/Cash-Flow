@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cash & Flow | High-End Sports Cars</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/styles.css?v=gallery-admin-1">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
 </head>
 
@@ -36,7 +36,6 @@
                 <li><a href="inventario/inventario.html">Inventario</a></li>
                 <li><a href="#events">Eventos</a></li>
                 <li><a href="#contact">Contacto</a></li>
-                <li><a href="admin.html" class="admin-btn">Admin</a></li>
             </ul>
         </nav>
 
@@ -55,7 +54,7 @@
                         pura.</p>
                     <div class="hero-buttons">
                         <a href="inventario/inventario.html" class="cta-button">Ver Inventario</a>
-                        <a href="#contact" class="cta-button cta-outline">Agendar Cita</a>
+                        <button type="button" class="cta-button cta-outline" id="hero-advisor-btn">Agendar Cita</button>
                     </div>
                 </div>
             </header>
@@ -72,7 +71,7 @@
                 <!-- Remate inferior de la "tarjeta" del inventario -->
                 <div class="inventory-footer">
                     <p>¿No encontraste lo que buscas? Tenemos acceso a inventario exclusivo bajo pedido.</p>
-                    <a href="#contact" class="cta-button">Hablar con un asesor</a>
+                    <button type="button" class="cta-button" id="inventory-advisor-btn">Hablar con un asesor</button>
                 </div>
             </section>
         </div> <!-- Fin de top-sections-wrapper -->
@@ -96,90 +95,20 @@
                 <div class="speech-divider"></div>
             </div>
 
-            <!-- ========================================
-                 FLIPBOOK — se pasa cada 7 segundos
-                 ======================================== -->
-            <div class="flipbook-wrapper">
-                <div class="flipbook" id="flipbook">
-
-                    <!-- PÁGINA 1: ¿Qué es Cash & Flow? -->
-                    <div class="flip-page active">
-                        <div class="flip-img">
-                            <img src="multimedia_cash/flipbook_garage.png" alt="Cash & Flow">
-                            <img class="photo-logo" src="assets/logo.png" alt="Cash & Flow">
-                        </div>
-                        <div class="flip-text">
-                            <span class="flip-tag">NUESTRA HISTORIA</span>
-                            <h3>¿Qué es Cash &amp; Flow?</h3>
-                            <p>Nacimos en Querétaro con una misión simple: acercar los vehículos de la pantalla al
-                                pavimento. Somos más que una agencia — somos el punto de encuentro entre quienes viven
-                                rápido y los coches que lo hacen posible.</p>
-                            <p>Desde deportivos exóticos hasta berlinetas discretas de alto rendimiento, aquí encuentras
-                                lo que no ves en los concesionarios normales.</p>
-                        </div>
-                    </div>
-
-                    <!-- PÁGINA 2: Eventos pasados -->
-                    <div class="flip-page">
-                        <div class="flip-img">
-                            <img src="multimedia_cash/flipbook_event.png" alt="Evento Cash & Flow">
-                            <img class="photo-logo" src="assets/logo.png" alt="Cash & Flow">
-                        </div>
-                        <div class="flip-text">
-                            <span class="flip-tag">EVENTOS</span>
-                            <h3>Noches que no se olvidan</h3>
-                            <p>Cada reunión de Cash &amp; Flow es una experiencia: motores que encienden conversaciones,
-                                modelos que detienen el tiempo y una comunidad que comparte la misma pasión.</p>
-                            <p>Si estuviste, ya sabes. Si no, no te pierdas el próximo.</p>
-                        </div>
-                    </div>
-
-                    <!-- PÁGINA 3: Comunidad -->
-                    <div class="flip-page">
-                        <div class="flip-img">
-                            <img src="multimedia_cash/cash0403.png" alt="Comunidad Cash & Flow">
-                            <img class="photo-logo" src="assets/logo.png" alt="Cash & Flow">
-                        </div>
-                        <div class="flip-text">
-                            <span class="flip-tag">COMUNIDAD</span>
-                            <h3>Más que clientes, somos familia</h3>
-                            <p>El verdadero motor de Cash &amp; Flow no está bajo el cofre — está en cada persona que
-                                confía en nosotros para encontrar su próximo vehículo.</p>
-                            <p>Una red de entusiastas, coleccionistas y amantes de la velocidad que crecen juntos cada
-                                mes.</p>
-                        </div>
-                    </div>
-
-                    <!-- PÁGINA 4: Modelos exclusivos -->
-                    <div class="flip-page">
-                        <div class="flip-img">
-                            <img src="multimedia_cash/cash0401.png" alt="Modelos exclusivos">
-                            <img class="photo-logo" src="assets/logo.png" alt="Cash & Flow">
-                        </div>
-                        <div class="flip-text">
-                            <span class="flip-tag">INVENTARIO</span>
-                            <h3>Del pixel al pavimento</h3>
-                            <p>Si lo viste en GTA, en una película o en tus sueños — pregúntanos. Nuestro acceso a
-                                inventario reservado nos permite gestionar modelos que no aparecen en ningún catálogo
-                                público.</p>
-                            <p>Availability under request. Discreción garantizada.</p>
-                        </div>
-                    </div>
-
-                </div><!-- /flipbook -->
-
-                <!-- Controles del flipbook -->
-                <div class="flip-controls">
-                    <button class="flip-btn" id="flipPrev" aria-label="Anterior">‹</button>
-                    <div class="flip-dots" id="flipDots">
-                        <span class="flip-dot active" data-idx="0"></span>
-                        <span class="flip-dot" data-idx="1"></span>
-                        <span class="flip-dot" data-idx="2"></span>
-                        <span class="flip-dot" data-idx="3"></span>
-                    </div>
-                    <button class="flip-btn" id="flipNext" aria-label="Siguiente">›</button>
+            <div class="story-gallery" id="story-gallery" aria-live="polite">
+                <div class="story-gallery-media">
+                    <img id="story-gallery-image" src="multimedia_cash/flipbook_garage.png" alt="Cash & Flow">
+                    <img class="photo-logo" src="assets/logo.png" alt="Cash & Flow">
                 </div>
-            </div><!-- /flipbook-wrapper -->
+                <div class="story-gallery-copy">
+                    <span class="story-gallery-tag" id="story-gallery-tag">NUESTRA HISTORIA</span>
+                    <h3 id="story-gallery-title">¿Qué es Cash &amp; Flow?</h3>
+                    <p id="story-gallery-description">Nacimos en Querétaro con una misión simple: acercar los vehículos
+                        de la pantalla al pavimento. Somos el punto de encuentro entre quienes viven rápido y los coches
+                        que lo hacen posible.</p>
+                </div>
+                <div class="story-gallery-controls" id="story-gallery-controls"></div>
+            </div>
 
         </section><!-- /blog-section -->
 
@@ -223,12 +152,119 @@
 
     </main>
 
+    <!-- ================================================
+         MODAL: HABLAR CON UN ASESOR
+         ================================================ -->
+    <div class="advisor-overlay" id="advisor-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="advisor-modal-title">
+        <div class="advisor-modal">
+            <button class="advisor-close" id="advisor-close-btn" aria-label="Cerrar">&times;</button>
+
+            <!-- PANTALLA 1: Selección de tipo -->
+            <div class="advisor-screen" id="advisor-screen-type">
+                <div class="advisor-eyebrow">Cash &amp; Flow</div>
+                <h2 class="advisor-title" id="advisor-modal-title">¿En qué podemos ayudarte?</h2>
+                <p class="advisor-subtitle">Elige el tipo de consulta y te conectamos con el asesor adecuado.</p>
+                <div class="advisor-type-grid">
+                    <button class="advisor-type-card" data-type="vehicle_quote">
+                        <span class="advisor-type-icon">🚗</span>
+                        <strong>Cotización de Vehículo</strong>
+                        <span>Quiero información de precio, financiamiento o cerrar un trato.</span>
+                    </button>
+                    <button class="advisor-type-card" data-type="general">
+                        <span class="advisor-type-icon">💬</span>
+                        <strong>Consulta General</strong>
+                        <span>Tengo una pregunta, necesito orientación o quiero agendar una visita.</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- PANTALLA 2a: Formulario cotización -->
+            <div class="advisor-screen" id="advisor-screen-vehicle" style="display:none">
+                <button class="advisor-back" data-back="type">← Regresar</button>
+                <div class="advisor-eyebrow">Cotización de Vehículo</div>
+                <h2 class="advisor-title">Cuéntanos qué buscas</h2>
+                <form class="advisor-form" id="advisor-form-vehicle" novalidate>
+                    <div class="advisor-field">
+                        <label for="av-name">Nombre completo *</label>
+                        <input type="text" id="av-name" placeholder="Carlos Hernández" required>
+                    </div>
+                    <div class="advisor-field">
+                        <label for="av-phone">Teléfono *</label>
+                        <input type="tel" id="av-phone" placeholder="442 123 4567" required>
+                    </div>
+                    <div class="advisor-field">
+                        <label for="av-email">Correo electrónico</label>
+                        <input type="email" id="av-email" placeholder="carlos@email.com">
+                    </div>
+                    <div class="advisor-field" style="position:relative">
+                        <label for="av-vehicle">Vehículo de interés</label>
+                        <input type="text" id="av-vehicle" placeholder="Escribe marca o modelo..." autocomplete="off">
+                        <div class="av-car-dropdown" id="av-car-dropdown"></div>
+                        <input type="hidden" id="av-car-id">
+                    </div>
+                    <div class="advisor-field">
+                        <label for="av-budget">Presupuesto aproximado (MXN)</label>
+                        <input type="text" id="av-budget" placeholder="$600,000">
+                    </div>
+                    <div class="advisor-field">
+                        <label for="av-message">Mensaje adicional</label>
+                        <textarea id="av-message" rows="3" placeholder="¿Algo más que debamos saber?"></textarea>
+                    </div>
+                    <button type="submit" class="advisor-submit" id="advisor-submit-vehicle">Enviar solicitud</button>
+                </form>
+            </div>
+
+            <!-- PANTALLA 2b: Formulario consulta general -->
+            <div class="advisor-screen" id="advisor-screen-general" style="display:none">
+                <button class="advisor-back" data-back="type">← Regresar</button>
+                <div class="advisor-eyebrow">Consulta General</div>
+                <h2 class="advisor-title">¿Cómo podemos ayudarte?</h2>
+                <form class="advisor-form" id="advisor-form-general" novalidate>
+                    <div class="advisor-field">
+                        <label for="ag-name">Nombre completo *</label>
+                        <input type="text" id="ag-name" placeholder="Carlos Hernández" required>
+                    </div>
+                    <div class="advisor-field">
+                        <label for="ag-phone">Teléfono *</label>
+                        <input type="tel" id="ag-phone" placeholder="442 123 4567" required>
+                    </div>
+                    <div class="advisor-field">
+                        <label for="ag-email">Correo electrónico</label>
+                        <input type="email" id="ag-email" placeholder="carlos@email.com">
+                    </div>
+                    <div class="advisor-field">
+                        <label for="ag-subject">Asunto</label>
+                        <input type="text" id="ag-subject" placeholder="Visita al garage, información general...">
+                    </div>
+                    <div class="advisor-field">
+                        <label for="ag-message">¿En qué podemos ayudarte? *</label>
+                        <textarea id="ag-message" rows="4" placeholder="Cuéntanos tu consulta..." required></textarea>
+                    </div>
+                    <button type="submit" class="advisor-submit" id="advisor-submit-general">Enviar consulta</button>
+                </form>
+            </div>
+
+            <!-- PANTALLA 3: Éxito -->
+            <div class="advisor-screen" id="advisor-screen-success" style="display:none">
+                <div class="advisor-success-icon">✓</div>
+                <h2 class="advisor-title">¡Solicitud recibida!</h2>
+                <p class="advisor-subtitle">Un asesor Cash &amp; Flow te contactará muy pronto.</p>
+                <div class="advisor-request-id-box">
+                    <span class="advisor-request-label">ID de solicitud</span>
+                    <span class="advisor-request-id" id="advisor-request-id">CF-000000</span>
+                </div>
+                <p class="advisor-success-note">Guarda este ID para dar seguimiento a tu solicitud.</p>
+                <button class="advisor-submit" id="advisor-done-btn">Listo</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Supabase JS Client & Initialization -->
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <script src="js/supabase.js"></script>
 
     <script src="js/db.js"></script>
-    <script src="js/app.js"></script>
+    <script src="js/app.js?v=advisor-1"></script>
 
 
 
