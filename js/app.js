@@ -707,7 +707,7 @@ async function loadInventory() {
                         <li>Kilometraje: ${car.mileage || 'N/A'}</li>
                         <li>Due&ntilde;os: ${car.owners || 'N/A'}</li>
                     </ul>
-                    <a href="#contact" class="btn-details">Me Interesa</a>
+                    <button type="button" class="btn-details btn-me-interesa">Me Interesa</button>
                 </div>
             `;
 
@@ -725,6 +725,16 @@ async function loadInventory() {
             card.addEventListener('mouseleave', () => {
                 videoElement.pause();
                 videoElement.classList.remove('is-ready');
+            });
+
+            card.querySelector('.btn-me-interesa').addEventListener('click', () => {
+                window.openAdvisorWithCar({
+                    id: car.id,
+                    brand: car.brand,
+                    model: car.model,
+                    year: car.year,
+                    price: car.price
+                });
             });
 
             carsGrid.appendChild(card);
@@ -892,6 +902,13 @@ document.querySelectorAll('.event-card--expandable').forEach(card => {
 // MODAL: HABLAR CON UN ASESOR
 // =====================================================
 (function initAdvisorModal() {
+    const EMAILJS_PUBLIC_KEY       = 'gVteD6q6M90d2-wTBbp5K';
+    const EMAILJS_SERVICE_ID       = 'service_x6hvqrv';
+    const EMAILJS_CONFIRM_TEMPLATE = 'xcsuknr';   // Confirmación al cliente
+    const EMAILJS_REPLY_TEMPLATE   = 'xq9oagk';   // Respuesta del admin al cliente
+
+    if (typeof emailjs !== 'undefined') emailjs.init(EMAILJS_PUBLIC_KEY);
+
     const overlay  = document.getElementById('advisor-overlay');
     const closeBtn = document.getElementById('advisor-close-btn');
     const doneBtn  = document.getElementById('advisor-done-btn');
@@ -904,22 +921,69 @@ document.querySelectorAll('.event-card--expandable').forEach(card => {
         if (screen) screen.style.display = '';
     }
 
-    function openAdvisor(defaultType) {
+    function openAdvisor(defaultType, carData) {
         showScreen('advisor-screen-type');
         overlay.classList.add('open');
         overlay.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
-        if (defaultType) {
+
+        if (carData) {
+            const label = [carData.brand, carData.model, carData.year].filter(Boolean).join(' ');
+            avVehicleInput.value = label;
+            avCarIdInput.value   = carData.id || '';
+            avVehicleInput.dataset.selectedSnapshot = JSON.stringify({
+                brand: carData.brand, model: carData.model,
+                year: carData.year,   price: carData.price
+            });
+            avVehicleInput.readOnly = true;
+            avVehicleInput.style.opacity = '0.7';
+            showScreen('advisor-screen-vehicle');
+        } else if (defaultType) {
             const card = overlay.querySelector(`[data-type="${defaultType}"]`);
             if (card) card.click();
         }
     }
 
+    // Exponer para que loadInventory() pueda llamarlo
+    window.openAdvisorWithCar = (carData) => openAdvisor(null, carData);
+
     function closeAdvisor() {
         overlay.classList.remove('open');
         overlay.setAttribute('aria-hidden', 'true');
         document.body.style.overflow = '';
+        avVehicleInput.readOnly = false;
+        avVehicleInput.style.opacity = '';
     }
+
+    async function sendConfirmationEmail(name, email, title, requestId) {
+        if (!email || typeof emailjs === 'undefined') return;
+        try {
+            await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_CONFIRM_TEMPLATE, {
+                to_email:   email,
+                name:       name,
+                title:      title,
+                request_id: requestId
+            });
+        } catch (err) {
+            console.warn('Email de confirmación no enviado:', err);
+        }
+    }
+
+    // Exponer función de email de respuesta para admin.js
+    window.sendAdminReplyEmail = async function(customerEmail, customerName, carTitle, adminMessage, leadId) {
+        if (!customerEmail || typeof emailjs === 'undefined') return;
+        try {
+            await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_REPLY_TEMPLATE, {
+                to_email:  customerEmail,
+                name:      customerName,
+                car_title: carTitle,
+                message:   adminMessage,
+                reply_to:  'cahs.flow.10@gmail.com'
+            });
+        } catch (err) {
+            console.warn('Email de respuesta no enviado:', err);
+        }
+    };
 
     // Abrir desde botones del homepage
     document.getElementById('hero-advisor-btn')?.addEventListener('click', () => openAdvisor());
@@ -1083,12 +1147,13 @@ document.querySelectorAll('.event-card--expandable').forEach(card => {
                 : (vehicle ? { vehicle_interest: vehicle } : null);
             const budgetRaw  = document.getElementById('av-budget').value.replace(/[^0-9.]/g, '');
 
+            const email = document.getElementById('av-email').value.trim() || null;
             await submitLead({
                 lead_type: 'vehicle_quote',
                 car_id: carId,
                 customer_name: name,
                 customer_phone: phone,
-                customer_email: document.getElementById('av-email').value.trim() || null,
+                customer_email: email,
                 subject: vehicle || null,
                 budget_mxn: budgetRaw ? parseFloat(budgetRaw) : null,
                 message: document.getElementById('av-message').value.trim() || vehicle || 'Sin mensaje',
@@ -1096,6 +1161,7 @@ document.querySelectorAll('.event-card--expandable').forEach(card => {
                 status: 'nuevo',
                 car_snapshot: snapshot
             });
+            sendConfirmationEmail(name, email, vehicle || 'Cotización de vehículo', requestId);
             showSuccess(requestId);
         } catch (err) {
             console.error('Error enviando cotización:', err);
@@ -1127,16 +1193,19 @@ document.querySelectorAll('.event-card--expandable').forEach(card => {
         setSubmitLoading(btn, true);
 
         try {
+            const emailGen = document.getElementById('ag-email').value.trim() || null;
+            const subjectGen = document.getElementById('ag-subject').value.trim() || 'Consulta general';
             await submitLead({
                 lead_type: 'general',
                 customer_name: name,
                 customer_phone: phone,
-                customer_email: document.getElementById('ag-email').value.trim() || null,
-                subject: document.getElementById('ag-subject').value.trim() || null,
+                customer_email: emailGen,
+                subject: subjectGen,
                 message,
                 source: 'homepage_advisor',
                 status: 'nuevo'
             });
+            sendConfirmationEmail(name, emailGen, subjectGen, requestId);
             showSuccess(requestId);
         } catch (err) {
             console.error('Error enviando consulta:', err);

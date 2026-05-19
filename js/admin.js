@@ -1061,6 +1061,18 @@ document.addEventListener('DOMContentLoaded', () => {
             if (lead) {
                 renderLeadSummary(lead);
                 await renderLeadThread(lead);
+                if (lead.customer_email && typeof window.sendAdminReplyEmail === 'function') {
+                    const car = lead.inventory_cars || lead.car_snapshot || {};
+                    const carTitle = [car.brand, car.model, car.year].filter(Boolean).join(' ')
+                        || lead.subject || 'tu solicitud';
+                    window.sendAdminReplyEmail(
+                        lead.customer_email,
+                        lead.customer_name || 'Cliente',
+                        carTitle,
+                        message,
+                        lead.id
+                    );
+                }
             }
             showToast('Mensaje guardado');
         } catch (err) {
